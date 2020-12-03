@@ -1,94 +1,107 @@
-<form method="post">
+<form method="get">
     {{#book}}
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Mã ISBN</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="isbn" value="{{isbn}}" placeholder="Nhập mã ISBN">
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Mã ISBN</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="isbn" value="{{isbn}}" placeholder="Nhập mã ISBN">
+            </div>
         </div>
-    </div>
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Tên sách</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="bookName" value="{{bookName}}" placeholder="Nhập tên sách">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Tên tác giả</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="author" value="{{author}}" placeholder="Nhập tên tác giả">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Tên nhà xuất bản</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="publisher" value="{{publisher}}" placeholder="Nhập tên nhà xuất bản">
-        </div>
-    </div>
-
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Đơn giá</label>
-        <div class="col-sm-10">
-            <input type="number" class="form-control" name="price" value="{{price}}" placeholder="Nhập giá sách">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Số trang</label>
-        <div class="col-sm-10">
-            <input type="number" class="form-control" name="totalPage" value="{{totalPage}}" placeholder="Nhập số trang">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Thể loại</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="category" value="{{category}}" placeholder="Nhập thể loại">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="coverForm" value="{{coverForm}}" placeholder="Nhập hình thức bìa">
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Link hình ảnh</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="bookImage" value="{{bookImage}}" placeholder="Dán link hình vào đây">
-        </div>
-    </div>
-
-
-    <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Mô tả</label>
-        <div class="col-sm-10">
-            <textarea class="form-control"   placeholder="nhập mô tả" name="detail" rows="3">{{detail}}</textarea>
-        </div>
-    </div>
-
-
-
-
-    <div class="mb-3 row d-flex float-right flex-row-reverse">
-        <div class="col-sm-6 ml-sm-auto">
-            <button type="submit" class="btn btn-primary">Lưu</button>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Tên sách</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="bookName" value="{{bookName}}" placeholder="Nhập tên sách">
+            </div>
         </div>
 
-        <div class="col-sm-6 ml-sm-auto">
-            <a href="/store"><button type="button" class="btn btn-primary">Hủy</button></a>
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Tên tác giả</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="author" value="{{author}}" placeholder="Nhập tên tác giả">
+            </div>
         </div>
-    </div>
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Tên nhà xuất bản</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="publisher" value="{{publisher}}" placeholder="Nhập tên nhà xuất bản">
+            </div>
+        </div>
+
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Đơn giá</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" readonly name="price" value="{{price}}" placeholder="Nhập giá sách">
+            </div>
+        </div>
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Số trang</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" readonly name="totalPage" value="{{totalPage}}" placeholder="Nhập số trang">
+            </div>
+        </div>
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Thể loại</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="category" value="{{category}}" placeholder="Nhập thể loại">
+            </div>
+        </div>
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="coverForm" value="{{coverForm}}" placeholder="Nhập hình thức bìa">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Link hình ảnh</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly name="bookImage" value="{{bookImage}}" placeholder="Dán link hình vào đây">
+            </div>
+        </div>
+
+
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Mô tả</label>
+            <div class="col-sm-10">
+                <textarea class="form-control"  readonly  placeholder="nhập mô tả" name="detail" rows="3">{{detail}}</textarea>
+            </div>
+        </div>
+        <div class="mb-3 row d-flex flex-row">
+            <div class="col-form-label col-sm-2 text-sm-right"></div>
+            <div class="col-sm-10 d-inline-flex float-left ">
+                <div class="mr-1 text-nowrap">
+                    <a href="/store/{{_id}}/modify"><button type="button" class="btn btn-primary">Chỉnh sửa</button></a>
+                </div>
+
+                <div class="mr-1 ">
+                    <a href="/store{{_id}}/delete"><button type="button" class="btn btn-primary">Xóa</button></a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--
+        <div class="mb-3 row float-right d-inline-flex">
+            <div class="col-sm-6  text-nowrap">
+                <a href="/store/{{_id}}/modify"><button type="button" class="btn btn-primary">Chỉnh sửa</button></a>
+            </div>
+
+            <div class="col-sm-6 float-right">
+                <a href="/store{{_id}}/delete"><button type="button" class="btn btn-primary">Xóa</button></a>
+            </div>
+        </div>
+        -->
 
     {{/book}}
 </form>

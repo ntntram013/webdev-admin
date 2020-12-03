@@ -5,7 +5,7 @@ const {ObjectId} = require('mongodb');
 exports.list=async()=>
 {
     const booksCollection=db().collection('Product');
-    const bookList =await booksCollection.find({}).toArray();
+    const bookList =await booksCollection.find({'isDeleted':false}).toArray();
     return bookList;
 }
 
@@ -17,13 +17,21 @@ exports.add= async(book)=>
 exports.detail = async (id)=>
 {
     const booksCollection=db().collection('Product');
-    const book = await booksCollection.findOne({_id:ObjectId(id)})
+    const book = await booksCollection.findOne({_id:ObjectId(id),isDeleted: false});
+
     return book;
 
 }
 
+
 exports.update=async (id,bookUpdate)=>
 {
     const booksCollection=db().collection('Product');
-    booksCollection.update({"_id":ObjectId(id)},bookUpdate);
+    await booksCollection.update({"_id":ObjectId(id)},bookUpdate);
+}
+
+exports.delete=async(id)=>
+{
+    const booksCollection=db().collection('Product');
+    await booksCollection.update({"_id":ObjectId(id)},{$set:{'isDeleted':true}});
 }

@@ -10,12 +10,20 @@ exports.add=async(req, res, next)=>
 {
     res.render('addBook',{title:'Thêm mới'});
 }
-exports.detail = async (req,res,next)=>
-{
+exports.modify = async (req,res,next)=> {
     console.log(req.params.id);
-    const book=await bookModel.detail(req.params.id);
-    res.render('bookDetail',{title:'Chỉnh sửa',book});
+    const book = await bookModel.detail(req.params.id);
+
+    res.render('bookModify', {title: 'Chỉnh sửa', book});
+
 }
+exports.detail = async (req, res, next) =>
+{
+    const book = await bookModel.detail(req.params.id);
+
+    res.render('bookDetail', {title: 'Chỉnh sửa', book});
+}
+
 
 
 exports.postAdd=async(req,res,next)=>
@@ -30,7 +38,8 @@ exports.postAdd=async(req,res,next)=>
     const totalPage=req.body.totalPage;
     const coverForm=req.body.coverForm;
     const detail=req.body.detail;
-    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail};
+    const isDeleted=false;
+    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted};
     await bookModel.add(book).then(res.redirect("/store"));
 }
 
@@ -49,5 +58,11 @@ exports.postModify=async(req,res,next)=>
     const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail};
     await bookModel.update(req.params.id,book).then(res.redirect("/store"));
 
+}
+
+exports.delete=async(req,res,next)=>
+{
+    const id=req.params.id;
+    await bookModel.delete(id).then(res.redirect('/store'));
 }
 
