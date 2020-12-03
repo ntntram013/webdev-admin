@@ -12,6 +12,7 @@ router.post('/addBook',bookController.postAdd);
 
 
 
-router.get('/modify/:id',bookController.detail);
+router.get('/:id/modify',bookController.detail);
+router.post('/:id/modify',bookController.postModify);
 
 module.exports = router;

@@ -14,10 +14,16 @@ exports.add= async(book)=>
     const booksCollection=db().collection('Product')
     await booksCollection.insertOne(book);
 }
-exports.modify = async (id)=>
+exports.detail = async (id)=>
 {
     const booksCollection=db().collection('Product');
     const book = await booksCollection.findOne({_id:ObjectId(id)})
     return book;
 
+}
+
+exports.update=async (id,bookUpdate)=>
+{
+    const booksCollection=db().collection('Product');
+    booksCollection.update({"_id":ObjectId(id)},bookUpdate);
 }
