@@ -55,7 +55,8 @@ exports.postModify=async(req,res,next)=>
     const totalPage=req.body.totalPage;
     const coverForm=req.body.coverForm;
     const detail=req.body.detail;
-    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail};
+    const isDeleted=false;
+    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted}};
     await bookModel.update(req.params.id,book).then(res.redirect("/store"));
 
 }

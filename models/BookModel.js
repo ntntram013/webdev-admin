@@ -27,11 +27,11 @@ exports.detail = async (id)=>
 exports.update=async (id,bookUpdate)=>
 {
     const booksCollection=db().collection('Product');
-    await booksCollection.update({"_id":ObjectId(id)},bookUpdate);
+    await booksCollection.updateOne({"_id":ObjectId(id)},bookUpdate);
 }
 
 exports.delete=async(id)=>
 {
     const booksCollection=db().collection('Product');
-    await booksCollection.update({"_id":ObjectId(id)},{$set:{'isDeleted':true}});
+    await booksCollection.updateOne({"_id":ObjectId(id)},{$set:{'isDeleted':true}});
 }
