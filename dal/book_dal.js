@@ -1,7 +1,7 @@
 const {MongoClient}=require('mongodb');
 
 
-const client=new MongoClient('mongodb+srv://webteam:development@cluster0.qqvwj.mongodb.net/Store?retryWrites=true&w=majority',{
+const client=new MongoClient(process.env.Uri,{
     useUnifiedTopology:true,
     useNewUrlParser:true
 });
