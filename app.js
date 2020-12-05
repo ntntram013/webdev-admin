@@ -14,6 +14,10 @@ const storeRouter=require('./routes/store');
 require('./dal/book_dal');
 var loginRouter = require('./routes/login');
 
+
+var authMiddleware = require('./middlewares/auth');
+
+
 var app = express();
 
 // view engine setup
@@ -28,12 +32,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/index', indexRouter);
-app.use('/users', usersRouter);
-app.use('/store',storeRouter);
-app.use('/',loginRouter);
-
-
+app.use('/index', authMiddleware.requireAuth,indexRouter);
+app.use('/users', authMiddleware.requireAuth, usersRouter);
+app.use('/store', authMiddleware.requireAuth,storeRouter);
+app.use('/', loginRouter);
 
 
 

@@ -1,4 +1,9 @@
 module.exports.login = (req,res)=>{
+    if(req.cookies.cookieID == 'abcxyz'){
+        res.redirect('/index');
+        return;
+    }
+
     res.render('login',{
         layout: false,
     });
@@ -28,5 +33,6 @@ module.exports.postLogin = (req,res,next)=>{
         return;
     }
 
+    res.cookie('cookieID','abcxyz');
     res.redirect('/index');
 }
