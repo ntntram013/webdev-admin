@@ -9,7 +9,7 @@ module.exports.login = (req,res)=>{
     });
 }
 
-module.exports.postLogin = (req,res,next)=>{
+module.exports.postLogin = (req,res)=>{
     const email = req.body.email;
     const pass = req.body.password;
 
@@ -35,7 +35,13 @@ module.exports.postLogin = (req,res,next)=>{
 
     res.cookie('cookieID','abcxyz',{
         signed:true,
-        maxAge: 30*60*1000
+        maxAge: 30*60*1000 // 30 minutes
     });
+
     res.redirect('/index');
+}
+
+module.exports.logout =  (req,res)=>{
+    res.clearCookie('cookieID');
+    res.redirect('/');
 }

@@ -20,6 +20,7 @@ var authMiddleware = require('./middlewares/auth');
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -32,10 +33,11 @@ app.use(cookieParser('MY SECRET'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/index', authMiddleware.requireAuth,indexRouter);
+app.use('/index', authMiddleware.requireAuth, indexRouter);
 app.use('/users', authMiddleware.requireAuth, usersRouter);
-app.use('/store', authMiddleware.requireAuth,storeRouter);
+app.use('/store', authMiddleware.requireAuth, storeRouter);
 app.use('/', loginRouter);
+app.use('/logout',loginRouter);
 
 
 
