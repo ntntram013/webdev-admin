@@ -8,17 +8,6 @@ module.exports.postLogin = (req,res,next)=>{
     const email = req.body.email;
     const pass = req.body.password;
 
-    if(email !== 'admin@gmail.com' && pass !== 'admin'){
-        res.render('login',{
-            layout: false,
-            errors: [
-                'Email không hợp lệ!',
-                'Mật khẩu không đúng!'
-            ],
-        });
-        return;
-    }
-
     if(email !== 'admin@gmail.com'){
         res.render('login',{
             layout: false,
