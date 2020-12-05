@@ -1,5 +1,5 @@
 module.exports.login = (req,res)=>{
-    if(req.cookies.cookieID == 'abcxyz'){
+    if(req.signedCookies.cookieID === 'abcxyz'){
         res.redirect('/index');
         return;
     }
@@ -33,6 +33,9 @@ module.exports.postLogin = (req,res,next)=>{
         return;
     }
 
-    res.cookie('cookieID','abcxyz');
+    res.cookie('cookieID','abcxyz',{
+        signed:true,
+        maxAge: 30*60*1000
+    });
     res.redirect('/index');
 }
