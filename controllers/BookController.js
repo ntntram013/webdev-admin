@@ -67,3 +67,28 @@ exports.delete=async(req,res,next)=>
     await bookModel.delete(id).then(res.redirect('/store'));
 }
 
+exports.pagination=async(req,res,next)=>
+{
+    const resPerPage = 3;
+    const page = +req.query.page || 1;
+    const currentPage=parseInt(page);
+    const nextPage=parseInt(currentPage+1);
+    const previousPage=parseInt(currentPage-1);
+    const totalPage= Math.ceil(await bookModel.TotalProduct()/resPerPage);
+    console.log(totalPage);
+    let IsHasPrev=true;
+    let IsHasNext=true;
+    if (currentPage==1)
+    {
+        IsHasPrev=false;
+    }
+    if (currentPage==totalPage)
+    {
+        IsHasNext=false;
+    }
+
+    const productPerPage=await bookModel.Pagination(3,page);
+    res.render('store',{title:'Danh sách',book:productPerPage,previousPage:previousPage,nextPage:nextPage,IsHasPrev,IsHasNext,currentPage});
+
+}
+

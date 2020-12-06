@@ -3,8 +3,9 @@ var router = express.Router();
 const bookController=require('../controllers/BookController')
 
 /* GET users listing. */
-router.get('/', bookController.index);
+//router.get('/', bookController.index);
 router.get('/addBook',bookController.add);
+router.get('/',bookController.pagination);
 
 router.post('/addBook',bookController.postAdd);
 

@@ -35,3 +35,17 @@ exports.delete=async(id)=>
     const booksCollection=db().collection('Product');
     await booksCollection.updateOne({"_id":ObjectId(id)},{$set:{'isDeleted':true}});
 }
+
+exports.Pagination=async (itemPerPage,currentPage)=>
+{
+    const booksCollection=db().collection('Product');
+    const bookPerPage=await booksCollection.find({isDeleted:false}).skip((itemPerPage*currentPage)-itemPerPage).limit(itemPerPage).toArray();
+    return bookPerPage;
+
+}
+exports.TotalProduct=async()=>
+{
+    const booksCollection=db().collection('Product');
+    const numBook=await booksCollection.find({isDeleted: false}).count();
+    return numBook;
+}
