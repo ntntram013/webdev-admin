@@ -9,8 +9,20 @@ exports.list=async()=>
     return bookList;
 }
 
-exports.add= async(book)=>
+exports.add= async(fields)=>
 {
+    const isbn=fields.isbn;
+    const category=fields.category;
+    const bookImage=fields.bookImage;
+    const bookName=fields.bookName;
+    const author=fields.author;
+    const publisher=fields.publisher;
+    const price=fields.price;
+    const totalPage=fields.totalPage;
+    const coverForm=fields.coverForm;
+    const detail=fields.detail;
+    const isDeleted=false;
+    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted};
     const booksCollection=db().collection('Product')
     await booksCollection.insertOne(book);
 }
@@ -26,12 +38,25 @@ exports.detail = async (id)=>
 
 exports.update=async (id,bookUpdate)=>
 {
+    const isbn=bookUpdate.isbn;
+    const category=bookUpdate.category;
+    const bookImage=bookUpdate.bookImage;
+    const bookName=bookUpdate.bookName;
+    const author=bookUpdate.author;
+    const publisher=bookUpdate.publisher;
+    const price=bookUpdate.price;
+    const totalPage=bookUpdate.totalPage;
+    const coverForm=bookUpdate.coverForm;
+    const detail=bookUpdate.detail;
+    const isDeleted=false;
+    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted}};
     const booksCollection=db().collection('Product');
-    await booksCollection.updateOne({"_id":ObjectId(id)},bookUpdate);
+    await booksCollection.updateOne({"_id":ObjectId(id)},book);
 }
 
 exports.delete=async(id)=>
 {
+
     const booksCollection=db().collection('Product');
     await booksCollection.updateOne({"_id":ObjectId(id)},{$set:{'isDeleted':true}});
 }

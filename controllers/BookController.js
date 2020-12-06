@@ -1,4 +1,11 @@
+const formidable = require('formidable');
+let cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
 
+})
 
 
 
@@ -31,36 +38,54 @@ exports.detail = async (req, res, next) =>
 
 exports.postAdd=async(req,res,next)=>
 {
-    const isbn=req.body.isbn;
-    const category=req.body.category;
-    const bookImage=req.body.bookImage;
-    const bookName=req.body.bookName;
-    const author=req.body.author;
-    const publisher=req.body.publisher;
-    const price=req.body.price;
-    const totalPage=req.body.totalPage;
-    const coverForm=req.body.coverForm;
-    const detail=req.body.detail;
-    const isDeleted=false;
-    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted};
-    await bookModel.add(book).then(res.redirect("/store"));
+    const form = formidable({multiple: true});
+
+    await form.parse(req, (err, fields, files) =>{
+        if(err){
+            next(err);
+            return;
+        }
+        if(files.imageFile && files.imageFile.size> 0){
+            cloudinary.uploader.upload(files.imageFile.path,
+                function(error, result) {
+                    console.log(result, error);
+                    fields.bookImage = result.secure_url;
+                    bookModel.add(fields).then(res.redirect("/store"));
+                });
+        }
+        else{
+            bookModel.add(fields).then(res.redirect("/store"));
+        }
+
+
+    });
+
 }
 
 exports.postModify=async(req,res,next)=>
 {
-    const isbn=req.body.isbn;
-    const category=req.body.category;
-    const bookImage=req.body.bookImage;
-    const bookName=req.body.bookName;
-    const author=req.body.author;
-    const publisher=req.body.publisher;
-    const price=req.body.price;
-    const totalPage=req.body.totalPage;
-    const coverForm=req.body.coverForm;
-    const detail=req.body.detail;
-    const isDeleted=false;
-    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted}};
-    await bookModel.update(req.params.id,book).then(res.redirect("/store"));
+    const form = formidable({multiple: true});
+
+    await form.parse(req, (err, fields, files) =>{
+        if(err){
+            next(err);
+            return;
+        }
+        if(files.imageFile.size> 0){
+            cloudinary.uploader.upload(files.imageFile.path,
+                function(error, result) {
+                    console.log(result, error);
+                    fields.bookImage = result.secure_url;
+                    bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+                });
+        }
+        else{
+            bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+        }
+
+
+    });
+
 
 }
 
