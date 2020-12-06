@@ -10,7 +10,7 @@ let database;
 async function connectDb()
 {
     await client.connect();
-    database=await client.db('Demo');
+    database=await client.db('Store');
     console.log('Db connected');
 }
 
