@@ -1,4 +1,7 @@
 
+
+
+
 const bookModel=require('../models/BookModel');
 exports.index=async(req,res,next)=>
 {
@@ -69,13 +72,38 @@ exports.delete=async(req,res,next)=>
 
 exports.pagination=async(req,res,next)=>
 {
-    const resPerPage = 3;
+
+    let resPerPage=parseInt(req.query.item);
+
+    const itemOption1=3;
+    let itemOption2=5;
+    let itemOption3=6;
+
+    switch(resPerPage)
+    {
+        case 3:
+            itemOption2=5;
+            itemOption3=6;
+            break;
+
+        case 5:
+            itemOption2=3;
+            itemOption3=6;
+            break;
+
+        case 6:
+            itemOption2=3;
+            itemOption3=5;
+    }
+
+
+
+
     const page = +req.query.page || 1;
     const currentPage=parseInt(page);
     const nextPage=parseInt(currentPage+1);
     const previousPage=parseInt(currentPage-1);
     const totalPage= Math.ceil(await bookModel.TotalProduct()/resPerPage);
-    console.log(totalPage);
     let IsHasPrev=true;
     let IsHasNext=true;
     if (currentPage==1)
@@ -87,8 +115,12 @@ exports.pagination=async(req,res,next)=>
         IsHasNext=false;
     }
 
-    const productPerPage=await bookModel.Pagination(3,page);
-    res.render('store',{title:'Danh sách',book:productPerPage,previousPage:previousPage,nextPage:nextPage,IsHasPrev,IsHasNext,currentPage});
+    const productPerPage=await bookModel.Pagination(resPerPage,page);
+    res.render('store',{title:'Danh sách',book:productPerPage,previousPage:previousPage,nextPage:nextPage,IsHasPrev,IsHasNext,currentPage,resPerPage,
+        itemOption2,
+        itemOption3,
+
+    });
 
 }
 
