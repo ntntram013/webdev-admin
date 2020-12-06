@@ -80,16 +80,43 @@
             <div class="col-form-label col-sm-2 text-sm-right"></div>
             <div class="col-sm-10 d-inline-flex float-left ">
                 <div class="mr-1 text-nowrap">
-                    <a href="/store/{{_id}}/modify"><button type="button" class="btn btn-primary">Chỉnh sửa</button></a>
+                    <form method="post" id="edit" action="/store/{{_id}}/modify">
+                        <a href="javascript:{}" onclick="document.getElementById('edit').submit()"><button class="btn btn-primary">Chỉnh sửa</button></a>
+                        <input type="hidden" name="page" value="{{page}}" />
+                        <input type="hidden" name="item" value="{{item}}" />
+                    </form>
                 </div>
 
                 <div class="mr-1 ">
-                    <a href="/store/{{_id}}/delete"><button type="button" class="btn btn-primary">Xóa</button></a>
+                    <!--
+                    <a href="/store/{{_id}}/delete" data-toggle="modal"><button type="button" class="btn btn-primary">Xóa</button></a>
+                    -->
+                    <a href="#confirm" data-toggle="modal"><button type="button" class="btn btn-primary">Xóa</button></a>
                 </div>
             </div>
         </div>
 
 
 
-    {{/book}}
 </div>
+
+<div class="modal" id="confirm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc sẽ xóa sản phẩm này</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/store/{{_id}}/delete" ><button type="button" class="btn btn-primary">Đồng ý</button></a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+    {{/book}}

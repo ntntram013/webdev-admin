@@ -43,9 +43,27 @@ exports.Pagination=async (itemPerPage,currentPage)=>
     return bookPerPage;
 
 }
-exports.TotalProduct=async()=>
+exports.PaginationFindTitle=async(searchName,itemPerPage,currentPage)=>
 {
     const booksCollection=db().collection('Product');
-    const numBook=await booksCollection.find({isDeleted: false}).count();
-    return numBook;
+
+    const bookPerPage=await booksCollection.find({isDeleted:false,parseBookName:new RegExp(searchName)}).skip((itemPerPage*currentPage)-itemPerPage).limit(itemPerPage).toArray();
+    return bookPerPage;
+}
+
+exports.TotalProduct=async(filterName)=>
+{
+    const booksCollection=db().collection('Product');
+    if (filterName==undefined)
+    {
+
+        const numBook=await booksCollection.find({isDeleted: false}).count();
+        return numBook;
+    }
+    else
+    {
+        const numBook=await booksCollection.find({isDeleted: false,parseBookName:new RegExp(filterName)}).count();
+        return numBook;
+    }
+
 }
