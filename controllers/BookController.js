@@ -1,4 +1,11 @@
+const formidable = require('formidable');
+let cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
 
+})
 
 
 
@@ -39,6 +46,7 @@ exports.detail = async (req, res, next) =>
 
 exports.postAdd=async(req,res,next)=>
 {
+
     const slugify=require('slugify');
 
 
@@ -65,10 +73,34 @@ exports.postAdd=async(req,res,next)=>
 
     const backUrl="/store/?page="+req.body.page+"&item="+req.body.item;
     await bookModel.add(book).then(res.redirect(backUrl));
+
+    const form = formidable({multiple: true});
+
+    await form.parse(req, (err, fields, files) =>{
+        if(err){
+            next(err);
+            return;
+        }
+        if(files.imageFile && files.imageFile.size> 0){
+            cloudinary.uploader.upload(files.imageFile.path,
+                function(error, result) {
+                    console.log(result, error);
+                    fields.bookImage = result.secure_url;
+                    bookModel.add(fields).then(res.redirect("/store"));
+                });
+        }
+        else{
+            bookModel.add(fields).then(res.redirect("/store"));
+        }
+
+
+    });
+
 }
 
 exports.postModify=async(req,res,next)=>
 {
+
 
 
     const isbn=req.body.isbn;
@@ -97,6 +129,30 @@ exports.postModify=async(req,res,next)=>
     const backUrl="/store/?page="+req.body.page+"&item="+req.body.item;
 
     await bookModel.update(req.params.id,book).then(res.redirect(backUrl));
+
+    const form = formidable({multiple: true});
+
+    await form.parse(req, (err, fields, files) =>{
+        if(err){
+            next(err);
+            return;
+        }
+        if(files.imageFile.size> 0){
+            cloudinary.uploader.upload(files.imageFile.path,
+                function(error, result) {
+                    console.log(result, error);
+                    fields.bookImage = result.secure_url;
+                    bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+                });
+        }
+        else{
+            bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+        }
+
+
+    });
+
+
 
 }
 
