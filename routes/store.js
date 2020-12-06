@@ -4,7 +4,7 @@ const bookController=require('../controllers/BookController')
 
 /* GET users listing. */
 
-router.get('/', bookController.index);
+//router.get('/', bookController.index);
 router.get('/addBook',bookController.add);
 router.get('/',bookController.pagination);
 
