@@ -1,6 +1,6 @@
 const {db}=require('../dal/book_dal')
 const {ObjectId} = require('mongodb');
-
+const slugify=require('slugify');
 
 exports.list=async()=>
 {
@@ -22,7 +22,15 @@ exports.add= async(fields)=>
     const coverForm=fields.coverForm;
     const detail=fields.detail;
     const isDeleted=false;
-    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted};
+
+    const parseBookName=slugify(fields.bookName, {
+        replacement: ' ',  // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true,      // convert to lower case, defaults to `false`
+        strict: false,     // strip special characters except replacement, defaults to `false`
+        locale: 'vi'       // language code of the locale to use
+    })
+    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted, parseBookName:parseBookName};
     const booksCollection=db().collection('Product')
     await booksCollection.insertOne(book);
 }
@@ -49,7 +57,15 @@ exports.update=async (id,bookUpdate)=>
     const coverForm=bookUpdate.coverForm;
     const detail=bookUpdate.detail;
     const isDeleted=false;
-    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted}};
+    const slugify=require('slugify');
+    const parseBookName=slugify(bookUpdate.bookName, {
+        replacement: ' ',  // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true,      // convert to lower case, defaults to `false`
+        strict: false,     // strip special characters except replacement, defaults to `false`
+        locale: 'vi'       // language code of the locale to use
+    })
+    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted, parseBookName:parseBookName}};
     const booksCollection=db().collection('Product');
     await booksCollection.updateOne({"_id":ObjectId(id)},book);
 }

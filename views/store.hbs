@@ -20,13 +20,17 @@
 
 <form name="itemPerPage" method="get" action="/store/?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
     <div class="form-group">
-    <label class="" for="inlineFormCustomSelectPref">Item per page</label>
-    <input type="hidden" name="page" value="{{currentPage}}" />
-    <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-        <option selected value="{{resPerPage}}">{{resPerPage}}</option>
-        <option  value="{{itemOption2}}">{{itemOption2}}</option>
-        <option  value="{{itemOption3}}">{{itemOption3}}</option>
-    </select>
+        <div class="mb-3 row">
+            <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
+            <div class="col-5">
+                <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                    <option selected value="{{resPerPage}}">{{resPerPage}}</option>
+                    <option  value="{{itemOption2}}">{{itemOption2}}</option>
+                    <option  value="{{itemOption3}}">{{itemOption3}}</option>
+                </select>
+            </div>
+        </div>
+
     </div>
 
 </form>
