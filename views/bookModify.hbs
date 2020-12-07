@@ -1,11 +1,10 @@
 
-{{#book}}
-<form name="modifyBook" onsubmit="return validateBook('modifyBook')" method="post" action="/store/{{_id}}/modify/updateToDb">
 
 
-<form name="modifyBook" onsubmit="return validateBook('modifyBook')" method="post" enctype="multipart/form-data">
+
+<form id="formModify" name="modifyBook" onsubmit="return validateBook('modifyBook')" method="post" enctype="multipart/form-data" >
+
     {{#book}}
-
     <div class="mb-3 row">
         <label class="col-form-label col-sm-2 text-sm-right">Mã ISBN</label>
         <div class="col-sm-10">
@@ -84,24 +83,19 @@
         </div>
     </div>
 
-    {{/book}}
+
 
     <div class="mb-3 row d-flex float-right flex-row-reverse">
         <div class="col-sm-6 ml-sm-auto">
-            <button type="submit" class="btn btn-primary">Lưu</button>
+            <button form="formModify" formaction="/store/{{_id}}/modify/updateToDb" type="submit" class="btn btn-primary">Lưu</button>
         </div>
 
         <div class="col-sm-6 ml-sm-auto">
             <a href="/store/?page={{page}}&item={{item}}"><button type="button" class="btn btn-primary">Hủy</button></a>
         </div>
     </div>
-
+    {{/book}}
     <input type="hidden" name="page" value="{{page}}" />
     <input type="hidden" name="item" value="{{item}}"/>
 </form>
-<script>
-    function Hello(){
-        let a = document.getElementsByName('bookImage');
-        a.value = "uploaded";
-    }
-</script>
+

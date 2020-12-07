@@ -8,7 +8,6 @@ function validateBook(form) {
     const page = document.forms[form]["totalPage"].value;
     const category = document.forms[form]["category"].value;
     const coverForm = document.forms[form]["coverForm"].value;
-    const image = document.forms[form]["bookImage"].value;
     const detail = document.forms[form]["detail"].value;
 
     if (isbn === "") {
@@ -33,9 +32,6 @@ function validateBook(form) {
         check = false;
     }
     if(coverForm ===""){
-        check = false;
-    }
-    if(image ===""){
         check = false;
     }
     if(detail ===""){

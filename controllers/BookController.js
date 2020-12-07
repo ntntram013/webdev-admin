@@ -47,32 +47,6 @@ exports.detail = async (req, res, next) =>
 exports.postAdd=async(req,res,next)=>
 {
 
-    const slugify=require('slugify');
-
-
-
-    const isbn=req.body.isbn;
-    const category=req.body.category;
-    const bookImage=req.body.bookImage;
-    const bookName=req.body.bookName;
-    const parseBookName=slugify(bookName, {
-        replacement: ' ',  // replace spaces with replacement character, defaults to `-`
-        remove: undefined, // remove characters that match regex, defaults to `undefined`
-        lower: true,      // convert to lower case, defaults to `false`
-        strict: false,     // strip special characters except replacement, defaults to `false`
-        locale: 'vi'       // language code of the locale to use
-    })
-    const author=req.body.author;
-    const publisher=req.body.publisher;
-    const price=req.body.price;
-    const totalPage=req.body.totalPage;
-    const coverForm=req.body.coverForm;
-    const detail=req.body.detail;
-    const isDeleted=false;
-    const book={ isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted,parseBookName:parseBookName};
-
-    const backUrl="/store/?page="+req.body.page+"&item="+req.body.item;
-    await bookModel.add(book).then(res.redirect(backUrl));
 
     const form = formidable({multiple: true});
 
@@ -81,16 +55,17 @@ exports.postAdd=async(req,res,next)=>
             next(err);
             return;
         }
+        const backUrl="/store/?page="+fields.page+"&item="+fields.item;
         if(files.imageFile && files.imageFile.size> 0){
             cloudinary.uploader.upload(files.imageFile.path,
                 function(error, result) {
                     console.log(result, error);
                     fields.bookImage = result.secure_url;
-                    bookModel.add(fields).then(res.redirect("/store"));
+                    bookModel.add(fields).then(res.redirect(backUrl));
                 });
         }
         else{
-            bookModel.add(fields).then(res.redirect("/store"));
+            bookModel.add(fields).then(res.redirect(backUrl));
         }
 
 
@@ -103,32 +78,9 @@ exports.postModify=async(req,res,next)=>
 
 
 
-    const isbn=req.body.isbn;
-    const category=req.body.category;
-    const bookImage=req.body.bookImage;
-    const bookName=req.body.bookName;
-    const slugify=require('slugify');
-    const parseBookName=slugify(bookName, {
-        replacement: ' ',  // replace spaces with replacement character, defaults to `-`
-        remove: undefined, // remove characters that match regex, defaults to `undefined`
-        lower: true,      // convert to lower case, defaults to `false`
-        strict: false,     // strip special characters except replacement, defaults to `false`
-        locale: 'vi'       // language code of the locale to use
-    })
-
-    const author=req.body.author;
-    const publisher=req.body.publisher;
-    const price=req.body.price;
-    const totalPage=req.body.totalPage;
-    const coverForm=req.body.coverForm;
-    const detail=req.body.detail;
-    const isDeleted=false;
-    const book={$set: { isbn:isbn,category:category,bookImage:bookImage, bookName:bookName,author:author,publisher:publisher,price:price,totalPage:totalPage,coverForm:coverForm,detail:detail,isDeleted:isDeleted,parseBookName:parseBookName}};
 
 
-    const backUrl="/store/?page="+req.body.page+"&item="+req.body.item;
 
-    await bookModel.update(req.params.id,book).then(res.redirect(backUrl));
 
     const form = formidable({multiple: true});
 
@@ -137,16 +89,17 @@ exports.postModify=async(req,res,next)=>
             next(err);
             return;
         }
+        const backUrl="/store/?page="+fields.page+"&item="+fields.item;
         if(files.imageFile.size> 0){
             cloudinary.uploader.upload(files.imageFile.path,
                 function(error, result) {
                     console.log(result, error);
                     fields.bookImage = result.secure_url;
-                    bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+                    bookModel.update(req.params.id, fields).then(res.redirect(backUrl));
                 });
         }
         else{
-            bookModel.update(req.params.id, fields).then(res.redirect("/store"));
+            bookModel.update(req.params.id, fields).then(res.redirect(backUrl));
         }
 
 
@@ -166,32 +119,32 @@ exports.pagination=async(req,res,next)=>
 {
 
     let resPerPage=parseInt(req.query.item);
-    if (isNaN(resPerPage))
+    if (isNaN(resPerPage) || resPerPage <1)
     {
-        resPerPage=3;
+        resPerPage=5;
     }
     let titleSearch=req.query.title;
     console.log(titleSearch);
 
-    const itemOption1=3;
-    let itemOption2=5;
-    let itemOption3=6;
+    const itemOption1=5;
+    let itemOption2=10;
+    let itemOption3=20;
 
     switch(resPerPage)
     {
-        case 3:
-            itemOption2=5;
-            itemOption3=6;
-            break;
-
         case 5:
-            itemOption2=3;
-            itemOption3=6;
+            itemOption2=10;
+            itemOption3=20;
             break;
 
-        case 6:
-            itemOption2=3;
-            itemOption3=5;
+        case 10:
+            itemOption2=5;
+            itemOption3=20;
+            break;
+
+        case 20:
+            itemOption2=5;
+            itemOption3=10;
     }
 
     const slugify=require('slugify');
@@ -200,12 +153,7 @@ exports.pagination=async(req,res,next)=>
 
 
     let page = +req.query.page || 1;
-    const currentPage=parseInt(page);
-    const nextPage=parseInt(currentPage+1);
-    const previousPage=parseInt(currentPage-1);
-
-    let IsHasPrev=true;
-    let IsHasNext=true;
+    page = parseInt(page);
 
     let dontFindTitle;
     let productPerPage;
@@ -220,15 +168,34 @@ exports.pagination=async(req,res,next)=>
         });
 
         dontFindTitle=false;
-        productPerPage=await bookModel.PaginationFindTitle(parseBookName,resPerPage,page);
+
     }
     else {
         parseBookName=undefined;
-        productPerPage = await bookModel.Pagination(resPerPage, page);
         dontFindTitle=true;
     }
-
     const totalPage= Math.ceil(await bookModel.TotalProduct(parseBookName)/resPerPage);
+    if(page < 1){
+        page = 1
+    }
+    else if(page > totalPage){
+        page = totalPage;
+    }
+
+    if(titleSearch!=undefined){
+        productPerPage=await bookModel.PaginationFindTitle(parseBookName,resPerPage,page);
+    }
+    else{
+        productPerPage = await bookModel.Pagination(resPerPage, page);
+    }
+
+
+    const currentPage=page;
+    const nextPage=parseInt(currentPage+1);
+    const previousPage=parseInt(currentPage-1);
+
+    let IsHasPrev=true;
+    let IsHasNext=true;
     if (currentPage==1)
     {
         IsHasPrev=false;

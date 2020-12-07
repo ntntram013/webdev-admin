@@ -1,7 +1,6 @@
 
-<form name="addBook" onsubmit="return validateBook('addBook')" action="/store/addBook/addToDb" method="post">
 
-<form name="addBook" onsubmit="return validateBook('addBook')" method="post" enctype="multipart/form-data">
+<form  id="formAdd" name="addBook" onsubmit="return validateBook('addBook')" method="post" enctype="multipart/form-data">
 
     <div class="mb-3 row">
         <label class="col-form-label col-sm-2 text-sm-right">Mã ISBN</label>
@@ -85,7 +84,7 @@
 
     <div class="mb-3 row">
         <div class="col-sm-10 ml-sm-auto">
-            <button type="submit"  class="btn btn-primary">Submit</button>
+            <button form="formAdd" formaction="/store/addBook/addToDb" type="submit"  class="btn btn-primary">Submit</button>
         </div>
     </div>
     <input type="hidden" name="page" value="{{page}}" />
