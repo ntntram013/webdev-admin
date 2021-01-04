@@ -1,19 +1,18 @@
-const {MongoClient}=require('mongodb');
+const {MongoClient} = require('mongodb');
 
-
-const client=new MongoClient(process.env.Uri,{
-    useUnifiedTopology:true,
-    useNewUrlParser:true
+const client = new MongoClient(process.env.UriStore, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
 });
 
 let database;
-async function connectDb()
-{
+
+async function connectDb() {
     await client.connect();
-    database=await client.db('Store');
-    console.log('Db connected');
+    database = await client.db('Store');
+    console.log('Book db connected');
 }
 
 connectDb();
-const db=()=>database;
-module.exports.db=db;
+const db = () => database;
+module.exports.db = db;

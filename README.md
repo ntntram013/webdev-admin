@@ -1,5 +1,5 @@
 # Admin Page
 
   To log into, please insert below information:
-  - Email: admin@gmail.com
-  - Password: admin
+  - Email: dragon10x0408@gmail.com
+  - Password: 12345

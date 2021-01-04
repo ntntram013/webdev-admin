@@ -1,13 +1,7 @@
-module.exports.requireAuth = (req,res,next)=>{
-    if(!req.signedCookies.cookieID){
+module.exports.requireAuth = (req, res, next) => {
+    if (!req.user) {
         res.redirect('/');
         return;
     }
-
-    if(req.signedCookies.cookieID !== 'abcxyz'){
-        res.redirect('/');
-        return;
-    }
-
     next();
 };

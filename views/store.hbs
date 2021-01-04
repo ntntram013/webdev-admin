@@ -1,16 +1,15 @@
-
 <form action="/store/addbook" method="post">
-<!--
-<a href="/store/addBook"><button  class="btn btn-square btn-primary">Thêm mới</button></a>
--->
-    <input type="hidden" name="page" value="{{currentPage}}" />
-    <input type="hidden" name="item" value="{{resPerPage}}" />
-    <button type="submit"  class="btn btn-square btn-primary">Thêm mới</button>
+    <!--
+    <a href="/store/addBook"><button  class="btn btn-square btn-primary">Thêm mới</button></a>
+    -->
+    <input type="hidden" name="page" value="{{currentPage}}"/>
+    <input type="hidden" name="item" value="{{resPerPage}}"/>
+    <button type="submit" class="btn btn-square btn-primary">Thêm mới</button>
 </form>
 
 <form class="d-none d-sm-inline-block float-right" method="get">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Tìm kiếm…" name="title"  aria-label="Search">
+        <input type="text" class="form-control" placeholder="Tìm kiếm…" name="title" aria-label="Search">
         <button class="btn" type="submit">
             <i class="align-middle" data-feather="search"></i>
         </button>
@@ -19,19 +18,20 @@
 
 
 <form name="itemPerPage" method="get" action="/store/?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
-    <div class="form-group">
-        <div class="mb-3 row">
-            <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
-            <div class="col-5">
-                <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                    <option selected value="{{resPerPage}}">{{resPerPage}}</option>
-                    <option  value="{{itemOption2}}">{{itemOption2}}</option>
-                    <option  value="{{itemOption3}}">{{itemOption3}}</option>
-                </select>
-            </div>
+<div class="form-group">
+    <div class="mb-3 row">
+        <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
+        <div class="col-5">
+            <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2"
+                    id="inlineFormCustomSelectPref">
+                <option selected value="{{resPerPage}}">{{resPerPage}}</option>
+                <option value="{{itemOption2}}">{{itemOption2}}</option>
+                <option value="{{itemOption3}}">{{itemOption3}}</option>
+            </select>
         </div>
-
     </div>
+
+</div>
 
 </form>
 <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -46,17 +46,18 @@
     </thead>
     <tbody>
     {{#each book}}
-    <tr>
-        <td>{{isbn}}</td>
-        <td>{{bookName}}</td>
-        <td class="d-none d-md-table-cell">{{author}}</td>
-        <td>{{publisher}}</td>
-        <td class="table-action">
-            <form id="detail" method="post" action="/store/{{_id}}">
-                <input type="hidden" name="page" value="{{currentPage}}" />
-                <input type="hidden" name="item" value="{{resPerPage}}" />
-                <a  onclick="document.getElementById('detail').submit();"><i  class="align-middle" data-feather="eye"></i></a>
-            </form>
+        <tr>
+            <td>{{isbn}}</td>
+            <td>{{bookName}}</td>
+            <td class="d-none d-md-table-cell">{{author}}</td>
+            <td>{{publisher}}</td>
+            <td class="table-action">
+                <form id="detail" method="post" action="/store/{{_id}}">
+                    <input type="hidden" name="page" value="{{currentPage}}"/>
+                    <input type="hidden" name="item" value="{{resPerPage}}"/>
+                    <a onclick="document.getElementById('detail').submit();"><i class="align-middle"
+                                                                                data-feather="eye"></i></a>
+                </form>
                 <!--
 
 
@@ -64,47 +65,51 @@
              <a href="/store/{{_id}}/modify"><i class="align-middle" data-feather="edit-2"></i></a>
             -->
 
-            <form id="edit" method="post" action="/store/{{_id}}/modify">
-                <input type="hidden" name="page" value="{{currentPage}}" />
-                <input type="hidden" name="item" value="{{resPerPage}}" />
-                <a  onclick="document.getElementById('edit').submit();"><i  class="align-middle" data-feather="edit-2"></i></a>
-            </form>
+                <form id="edit" method="post" action="/store/{{_id}}/modify">
+                    <input type="hidden" name="page" value="{{currentPage}}"/>
+                    <input type="hidden" name="item" value="{{resPerPage}}"/>
+                    <a onclick="document.getElementById('edit').submit();"><i class="align-middle"
+                                                                              data-feather="edit-2"></i></a>
+                </form>
 
 
-        </td>
+            </td>
 
-    </tr>
+        </tr>
     {{/each}}
     </tbody>
 
 </table>
 {{#if dontFindTitle}}
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-            {{#if IsHasPrev}}
-            <a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {{#if IsHasPrev}}
+                    <a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
                 {{/if}}
-        </li>
-        {{#if IsHasPrev}}
-        <li class="page-item"><a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}">{{previousPage}}</a></li>
-        {{/if}}
-        <li class="page-item  active"><a class="page-link" href="/store/?page={{currentPage}}&item={{resPerPage}}">{{currentPage}}</a></li>
-
-        {{#if IsHasNext}}
-        <li class="page-item"><a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}">{{nextPage}}</a></li>
-        {{/if}}
-        <li class="page-item">
-            {{#if IsHasNext}}
-            <a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
+            </li>
+            {{#if IsHasPrev}}
+                <li class="page-item"><a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}
+                    ">{{previousPage}}</a></li>
             {{/if}}
-        </li>
-    </ul>
-</nav>
+            <li class="page-item  active"><a class="page-link" href="/store/?page={{currentPage}}&item={{resPerPage}}
+                ">{{currentPage}}</a></li>
+
+            {{#if IsHasNext}}
+                <li class="page-item"><a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}
+                    ">{{nextPage}}</a></li>
+            {{/if}}
+            <li class="page-item">
+                {{#if IsHasNext}}
+                    <a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
 {{else}}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
@@ -116,16 +121,20 @@
                 {{/if}}
             </li>
             {{#if IsHasPrev}}
-                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{previousPage}}&item={{resPerPage}}">{{previousPage}}</a></li>
+                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{previousPage}}
+                    &item={{resPerPage}}">{{previousPage}}</a></li>
             {{/if}}
-            <li class="page-item  active"><a class="page-link" href="/store/?title={{title}}&page={{currentPage}}&item={{resPerPage}}">{{currentPage}}</a></li>
+            <li class="page-item  active"><a class="page-link" href="/store/?title={{title}}&page={{currentPage}}
+                &item={{resPerPage}}">{{currentPage}}</a></li>
 
             {{#if IsHasNext}}
-                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{nextPage}}&item={{resPerPage}}">{{nextPage}}</a></li>
+                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{nextPage}}
+                    &item={{resPerPage}}">{{nextPage}}</a></li>
             {{/if}}
             <li class="page-item">
                 {{#if IsHasNext}}
-                    <a class="page-link" href="/store/?title={{title}}&page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
+                    <a class="page-link" href="/store/?title={{title}}&page={{nextPage}}&item={{resPerPage}}"
+                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     </a>
                 {{/if}}

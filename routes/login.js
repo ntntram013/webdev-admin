@@ -1,13 +1,22 @@
 var express = require('express');
 var router = express.Router();
-const loginController = require('../controllers/loginController');
+
+const passport = require('../passport');
+const adminController = require('../controllers/adminController');
 
 
-router.get('/', loginController.login);
+router.get('/', adminController.login);
+router.post('/', passport.authenticate('local', {
+    successRedirect: '/index',
+    failureRedirect: '/',
+    failureFlash: true
+}));
 
-router.post('/', loginController.postLogin);
+router.get('/logout', adminController.logout);
 
-router.get('/logout', loginController.logout);
+router.get('/forget', adminController.forgetPass);
+//router.get('/forget/:token', adminController.resetPass);
+//router.post('/forget/:token', adminController.postResetPass);
 
 
 module.exports = router;
