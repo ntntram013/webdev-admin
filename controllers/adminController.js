@@ -33,12 +33,12 @@ module.exports.forgetPass = async (req, res) => {
     // get the only admin
     const admin = await adminModel.getTheOnlyAdmin();
     // send reset password email to admin
-    const url = process.env.URI_STORE_SERVER + '/forget/' + admin._id.toString();
+    const url = process.env.URI_STORE_SERVER + '/' + admin._id.toString();
     let content = '';
     content += `
-               <div style="padding: 10px; background-color: #49439a">
-                    <div style="padding: 10px; background-color: #d9ffff;">
-                        <h4 style="color: #59689a">Có phải vừa có yêu cầu đặt lại mật khẩu cho tài khoản admin hệ thống <span style="color: #6a0026">${admin.username}</span>?</h4>
+               <div style="padding: 10px; background-color: #9d98ed">
+                    <div style="padding: 10px; background-color: #ffeffa;">
+                        <h4 style="color: #425084">Có phải vừa có yêu cầu đặt lại mật khẩu cho tài khoản admin hệ thống <span style="color: #6a0026">${admin.username}</span>?</h4>
                         <span style="color: black">Nhấn </span><a href="${url}">vào đây</a> để đặt mật khẩu mới.
                         <br><br><br>
                         <span style="color: #4c4a4a"><i>Nếu admin không yêu cầu đặt lại mật khẩu, xin hãy bỏ qua email này.</i><br></span>
@@ -62,46 +62,41 @@ module.exports.forgetPass = async (req, res) => {
     await adminService.sendMail(config, mainOptions);
 }
 
-// module.exports.resetPass = async (req, res) => {
-//     const adminId = req.params.token;
-//     await adminModel.detail(adminId).then(result => {
-//         res.render('signIn/reset-pass', {
-//             title: 'Đặt lại mật khẩu',
-//             isGet: true
-//         });
-//     }).catch(err => {
-//         res.render('signIn/reset-pass', {
-//             title: 'Đặt lại mật khẩu',
-//             isGet: true,
-//             errors: 'Có lỗi xảy ra. Thử lại sau nhé!'
-//         });
-//     });
-// }
 
-// module.exports.postResetPass = async (req, res) => {
-//     const {password, retypePassword} = req.body
-//     let errors = [];
-//     if (password === retypePassword) {
-//         const userId = req.params.token
-//         const hashedPassword = await userService.hashPass(password);
-//         userModel.updateByQuery(userId, 'password', hashedPassword).then(result => {
-//             const {matchedCount, modifiedCount} = result;
-//             if (matchedCount && modifiedCount) {
-//                 res.render('signIn/reset-pass', {
-//                     title: 'Đặt lại mật khẩu',
-//                     isGet: false,
-//                 });
-//             }
-//         });
-//         return;
-//     } else if (password.length < 5) {
-//         errors.push('Mật khẩu phải ít nhất 5 ký tự!');
-//     } else {
-//         errors.push('Mật khẩu không khớp. Vui lòng nhập lại.');
-//     }
-//     res.render('signIn/reset-pass', {
-//         title: 'Đặt lại mật khẩu',
-//         isGet: true,
-//         validateErrors: errors
-//     });
-// }
+module.exports.resetPass = async (req, res) => {
+    res.render('signIn/resetPass', {
+        layout: 'loginLayout',
+        title: 'Đặt Lại Mật Khẩu | WebDev468',
+        isGet: true
+    });
+}
+
+module.exports.postResetPass = async (req, res) => {
+    const {password, retypePassword} = req.body
+    let errors = [];
+    if (password.length < 5) {
+        errors.push('Mật khẩu phải ít nhất 5 ký tự!');
+    } else if (password === retypePassword) {
+        // const userId = req.params.token
+        const hashedPassword = await adminService.hashPass(password);
+        adminModel.updateByQuery('5ff2e33aba6a6e1ae4ff4967', 'password', hashedPassword).then(result => {
+            const {matchedCount, modifiedCount} = result;
+            if (matchedCount && modifiedCount) {
+                res.render('signIn/resetPass', {
+                    layout: 'loginLayout',
+                    title: 'Đặt Lại Mật Khẩu | WebDev468',
+                    isGet: false,
+                });
+            }
+        });
+        return;
+    } else {
+        errors.push('Mật khẩu không khớp. Vui lòng nhập lại.');
+    }
+    res.render('signIn/resetPass', {
+        layout: 'loginLayout',
+        title: 'Đặt Lại Mật Khẩu | WebDev468',
+        isGet: true,
+        validateErrors: errors
+    });
+}

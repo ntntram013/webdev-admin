@@ -1,5 +1,6 @@
 # Admin Page
 
   To log into, please insert below information:
-  - Email: dragon10x0408@gmail.com
+  - Email: webdev.team468@gmail.com@gmail.com
+  - or Username: admin
   - Password: 12345

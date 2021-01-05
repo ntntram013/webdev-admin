@@ -22,9 +22,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    adminService.getAdmin(id).then((user) => {
+    adminService.getAdmin().then((admin) => {
         // get user from _id that is saved in session
-        done(null, user);
+        done(null, admin);
     })
 });
 

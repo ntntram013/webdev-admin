@@ -1,0 +1,56 @@
+<div class="m-sm-4">
+    <div class="text-center">
+        <img src="img/logos/logo.png" alt="Logo" class="img-fluid" width="232"/>
+    </div>
+    <br>
+    <br>
+    {{#if errors}}
+        {{#each errors}}
+            <div class="alert alert-danger alert-dismissible text-center" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                <div class="alert-message">
+                    <strong> {{this}} </strong> Vui lòng nhập lại!
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        {{#if validateErrors}}
+            <div class="alert alert-danger alert-dismissible text-center" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                <div class="alert-message text-center">
+                    <strong> {{validateErrors}} </strong>
+                </div>
+            </div>
+        {{/if}}
+        {{#if isGet}}
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu mới</label>
+                    <input class="form-control form-control-lg" type="password" name="password"
+                           placeholder="Nhập mật khẩu mới (ít nhất 5 ký tự)*"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nhập lại mật khẩu</label>
+                    <input class="form-control form-control-lg" type="password" name="retypePassword"
+                           placeholder="Nhập lại mật khẩu*"/>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-lg btn-primary">Đặt lại mật khẩu</button>
+                </div>
+            </form>
+        {{else}}
+
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                <div class="alert-message text-center">
+                    <strong>Thay đổi mật khẩu thành công.</strong> <a href="/" class="alert-link">Đăng nhập</a>.
+                </div>
+            </div>
+        {{/if}}
+    {{/if}}
+</div>
+
+
+
+
+

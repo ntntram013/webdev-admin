@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+
 const adminModel = require('../models/adminModel');
 
 module.exports.checkCredential = async (loginInfo, password) => {
@@ -16,8 +17,8 @@ module.exports.checkCredential = async (loginInfo, password) => {
     return 0;
 }
 
-module.exports.getAdmin = (id) => {
-    return adminModel.detail(id);
+module.exports.getAdmin = () => {
+    return adminModel.getTheOnlyAdmin();
 }
 
 module.exports.hashPass = async (password) => {
