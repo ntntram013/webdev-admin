@@ -1,18 +1,18 @@
 <div class="m-sm-4">
     <div class="text-center">
-        <img src="img/logos/logo.png" alt="Logo" class="img-fluid" width="232"/>
+        <p class="lead">Đổi Mật Khẩu cho Admin</p>
+        <br>
+        <img src="/img/logos/logo.png" alt="Logo" class="img-fluid" width="232"/>
     </div>
     <br>
     <br>
     {{#if errors}}
-        {{#each errors}}
-            <div class="alert alert-danger alert-dismissible text-center" role="alert">
-                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-                <div class="alert-message">
-                    <strong> {{this}} </strong> Vui lòng nhập lại!
-                </div>
+        <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+            <div class="alert-message">
+                <strong> {{errors}} </strong> Vui lòng nhập đúng URL!
             </div>
-        {{/each}}
+        </div>
     {{else}}
         {{#if validateErrors}}
             <div class="alert alert-danger alert-dismissible text-center" role="alert">
@@ -39,7 +39,6 @@
                 </div>
             </form>
         {{else}}
-
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
                 <div class="alert-message text-center">
