@@ -3,16 +3,25 @@ let passport = require('passport')
 
 const adminService = require('../models/adminService');
 
-passport.use(new LocalStrategy({passReqToCallback: true},
+passport.use(new LocalStrategy({usernameField:'username',passwordnameField:'password',passReqToCallback: true},
     async (req, username, password, done) => {
-        const user = await adminService.checkCredential(username, password);
-        if (user === -1) {
-            return done(null, false, req.flash('err', 'Mật khẩu không đúng!'));
+        try{
+
+            const user = await adminService.checkCredential(username, password);
+            if (user === -1) {
+                console.log('Mật khẩu không đúng');
+                return done(null, false, req.flash('err', 'Mật khẩu không đúng!'));
+            }
+            if (user === 0) {
+                console.log('Mật khẩu không đúng');v
+                return done(null, false, req.flash('err', 'Tài khoản không tồn tại!'));
+            }
+            return done(null, user);
+        }catch(e)
+        {
+            console.log('Lỗi');
+            return done(null,false,{message:"Có lỗi xảy ra"});
         }
-        if (user === 0) {
-            return done(null, false, req.flash('err', 'Tài khoản không tồn tại!'));
-        }
-        return done(null, user);
     }
 ));
 
@@ -24,7 +33,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
     adminService.getAdmin().then((admin) => {
         // get user from _id that is saved in session
-        done(null, admin);
+        return done(null, admin);
     })
 });
 

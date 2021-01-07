@@ -19,8 +19,8 @@ const usersRouter = require('./routes/users');
 const storeRouter = require('./routes/store');
 const loginRouter = require('./routes/login');
 const profileRouter=require('./routes/profile');
+const defaultRouter=require('./routes/defaultRoute');
 
-const authMiddleware = require('./middlewares/auth');
 
 const app = express();
 
@@ -54,12 +54,15 @@ app.use((req, res, next) => {
     next();
 });
 
+const authenthicateMid=require('./middlewares/auth');
+app.use(authenthicateMid.requireAuth);
 // routes ======================================================================
-app.use('/', loginRouter);
-app.use('/index', authMiddleware.requireAuth, indexRouter);
-app.use('/users', authMiddleware.requireAuth, usersRouter);
-app.use('/store', authMiddleware.requireAuth, storeRouter);
-app.use('/profile',authMiddleware.requireAuth,profileRouter);
+app.use('/',defaultRouter);
+app.use('/login',loginRouter);
+app.use('/index', indexRouter);
+app.use('/users',usersRouter);
+app.use('/store',storeRouter);
+app.use('/profile',profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -76,5 +79,8 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+
+
 
 module.exports = app;

@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-
+const {db} = require('../dal/adminDal')
 const adminModel = require('../models/adminModel');
 
 module.exports.checkCredential = async (loginInfo, password) => {
     const adminByUsername = await adminModel.queryAdmin('username', loginInfo);
+    console.log(adminByUsername);
     const adminByEmail = await adminModel.queryAdmin('email', loginInfo);
     const existedAdmin = adminByEmail || adminByUsername;
     if (existedAdmin) {
@@ -41,4 +42,25 @@ module.exports.sendMail = async (config, mailOptions) => {
             }
         });
     });
+}
+
+module.exports.generateAdmin=async()=>
+{
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash('12345', saltRounds);
+    const adminCollection = db().collection('Admin')
+    const admin={
+        username:'admin',
+        email:'abc@gmail.com',
+        userImage:'https://res.cloudinary.com/webdevteam468/image/upload/v1607323611/dqvskwss8c2g1pbavl31.jpg',
+        password:hashedPassword,
+        address:'',
+        dob:'',
+        gender:"",
+        phone:"",
+        name:""
+
+    }
+
+    await adminCollection.insertOne(admin);
 }

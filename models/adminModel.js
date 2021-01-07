@@ -22,6 +22,40 @@ exports.updateByQuery = async (id, field, fieldValue) => {
     return result;
 }
 
+exports.ChangePassword=async(id,newPass)=>
+{
+    const password=newPass;
+    const adminCollection = db().collection('Admin');
+    await adminCollection.updateOne({"_id":ObjectId(id)},{$set: {
+            password:newPass
+}})
+}
+
+exports.Update=async(id,Admin)=>
+{
+    let updateVal=Admin;
+    const adminCollection = db().collection('Admin');
+    const email=Admin.email;
+    const address=Admin.address;
+    const gender=Admin.gender;
+    const name=Admin.name;
+    const phone=Admin.phone
+
+    const book={
+        $set:
+            {
+                email:email,
+                address:address,
+                gender:gender,
+                name:name,
+                phone:phone
+            }
+    }
+
+    const result = await adminCollection.updateOne({
+        "_id": ObjectId(id)},book);
+}
+
 module.exports.queryAdmin = async (queryField, fieldInfo) => {
     const adminCollection = db().collection('Admin');
     let query = {};
