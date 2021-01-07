@@ -18,6 +18,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const storeRouter = require('./routes/store');
 const loginRouter = require('./routes/login');
+const profileRouter=require('./routes/profile');
+
 const authMiddleware = require('./middlewares/auth');
 
 const app = express();
@@ -57,6 +59,7 @@ app.use('/', loginRouter);
 app.use('/index', authMiddleware.requireAuth, indexRouter);
 app.use('/users', authMiddleware.requireAuth, usersRouter);
 app.use('/store', authMiddleware.requireAuth, storeRouter);
+app.use('/profile',authMiddleware.requireAuth,profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

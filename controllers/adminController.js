@@ -110,3 +110,19 @@ module.exports.postResetPass = async (req, res) => {
         validateErrors: errors
     });
 }
+
+exports.RenderProfile=async(req,res,next)=>
+{
+    const ID=req.user._id;
+    console.log(ID);
+
+    const user={};
+    user.TenDangNhap=req.user.username;
+    user.TenNhanVien=req.user.name;
+    user.Email=req.user.mail;
+    user.DiaChi=req.user.address;
+    user.GioiTinh=req.user.gender;
+    user.SDT=req.user.phone;
+
+    res.render('profile',{title:'Thông tin tài khoản',user:user});
+}
