@@ -1,0 +1,174 @@
+
+
+
+<input class="orderid" type="hidden"  id="length" value="{{length}}"/>
+
+<form class="d-none d-sm-inline-block float-right" method="get">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Tìm kiếm…" name="title" aria-label="Search">
+        <button class="btn" type="submit">
+            <i class="align-middle" data-feather="search"></i>
+        </button>
+    </div>
+</form>
+
+
+<form name="itemPerPage" method="get" action="/order?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
+<div class="form-group">
+    <div class="mb-3 row">
+        <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
+        <div class="col-5">
+            <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2"
+                    id="inlineFormCustomSelectPref">
+                <option {{#Compare resPerPage '==' 5}} selected {{/Compare}}  value="5">5</option>
+                <option {{#Compare resPerPage '==' 10}} selected {{/Compare}}  value="10">10</option>
+                <option {{#Compare resPerPage '==' 15}} selected {{/Compare}} value="15">15</option>
+            </select>
+        </div>
+    </div>
+
+</div>
+
+</form>
+<table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th style="width:15%;">Mã hóa đơn</th>
+        <th style="width:15%">Ngày lập</th>
+        <th class="d-none d-md-table-cell" style="width:15%">SDT khách hàng</th>
+        <th style="width:20%">Tổng tiền</th>
+        <th style="width: 15%">Tình trạng</th>
+        <th style="width: 7%">Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each orderPerPage}}
+        <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.date}}</td>
+            <td class="d-none d-md-table-cell">{{this.info.userPhone}}</td>
+            <td>{{this.cart.totalPrice}}</td>
+            <td>
+                <form method="post" action="">
+                    <select name="changeStatus" id="select{{@index}}"  class="custom-select my-1 mr-sm-2"
+                            >
+                        <option {{#Compare this.status '===' "Processing"}} selected {{/Compare}}  value="Processing">Processing</option>
+                        <option {{#Compare this.status '===' "Delivered"}} selected {{/Compare}}  value="Delivered">Delivered</option>
+                        <option {{#Compare this.status '===' "Deliver"}} selected {{/Compare}} value="Deliver">Deliver</option>
+                    </select>
+                    <input class="orderid" type="hidden" name="orderid" id="orderid{{@index}}" value="{{this._id}}"/>
+
+                </form>
+
+            </td>
+            <td class="table-action">
+
+                    <a href="/order/{{this._id}}"><i class="align-middle"  data-feather="eye"></i></a
+
+
+
+
+
+
+            </td>
+
+        </tr>
+    {{/each}}
+    </tbody>
+
+</table>
+{{#if dontFindTitle}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {{#if IsHasPrev}}
+                    <a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {{/if}}
+            </li>
+            {{#if IsHasPrev}}
+                <li class="page-item"><a class="page-link" href="/order?page={{previousPage}}&item={{resPerPage}}
+                    ">{{previousPage}}</a></li>
+            {{/if}}
+            <li class="page-item  active"><a class="page-link" href="/order?page={{currentPage}}&item={{resPerPage}}
+                ">{{currentPage}}</a></li>
+
+            {{#if IsHasNext}}
+                <li class="page-item"><a class="page-link" href="/order?page={{nextPage}}&item={{resPerPage}}
+                    ">{{nextPage}}</a></li>
+            {{/if}}
+            <li class="page-item">
+                {{#if IsHasNext}}
+                    <a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
+{{else}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {{#if IsHasPrev}}
+                    <a class="page-link" href="/store/?title={{title}}&page={{previousPage}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {{/if}}
+            </li>
+            {{#if IsHasPrev}}
+                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{previousPage}}
+                    &item={{resPerPage}}">{{previousPage}}</a></li>
+            {{/if}}
+            <li class="page-item  active"><a class="page-link" href="/store/?title={{title}}&page={{currentPage}}
+                &item={{resPerPage}}">{{currentPage}}</a></li>
+
+            {{#if IsHasNext}}
+                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{nextPage}}
+                    &item={{resPerPage}}">{{nextPage}}</a></li>
+            {{/if}}
+            <li class="page-item">
+                {{#if IsHasNext}}
+                    <a class="page-link" href="/store/?title={{title}}&page={{nextPage}}&item={{resPerPage}}"
+                    aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
+
+{{/if}}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+
+        let s=parseInt($('#length').val());
+        for (let $i=0;$i<s;$i++) {
+            $('#select' + $i).on('change', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/order/changestatus',
+                    data: {status: $('#select' + $i).val(), orderID: $('#orderid' + $i).val()},
+                    dataType: 'html',
+                    success: function () {
+                        alert('Thành công');
+                    }
+                });
+            })
+        }
+    });
+</script>
+
+
+
+
+
+
+

@@ -1,0 +1,143 @@
+<body>
+{{#order}}
+    <div class="row">
+        <div class="card">
+            <div class="card-header" style='height: 50%'id="headInfoSupplier">
+
+                <div class="float-left">
+                    <p>Thông tin đơn hàng</p>
+                </div>
+
+                <div class="float-right">
+                    <a href="/profile/modify" class="btn btn-primary">Chỉnh sửa</a>
+                </div>
+
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row" id="infoSupplier">
+                    <div class="col-sm-4">
+                        <h4>Mã đơn hàng</h4>
+                    </div>
+                    <div class="col-sm-8">
+                        <h4>{{_id}}</h4>
+                    </div>
+
+                </div>
+
+
+                <div class="row" id="infoSupplier">
+                    <div class="col-sm-4">
+                        <h4>Thời gian lập</h4>
+                    </div>
+                    <div class="col-sm-8">
+                        <h4>{{date}}</h4>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <div class="row">
+        <div class="card">
+            <div class="card-header" id="headInfoSupplier">
+
+                <div class="float-left">
+                    <p>Mặt hàng</p>
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row">
+                    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th style="width:15%;">Mã sách</th>
+                            <th style="width:15%">Tên sách</th>
+                            <th class="d-none d-md-table-cell" style="width:15%">Số lượng</th>
+                            <th style="width:20%">Đơn giá</th>
+                            <th style="width: 15%">Thành tiền</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each this.cart.items as |item|}}
+                            <tr>
+                                <td>{{item.item.isbn}}</td>
+                                <td>{{item.item.bookName}}</td>
+                                <td class="d-none d-md-table-cell">{{item.item.qty}}</td>
+                                <td>{{item.item.price}}</td>
+                                <td>{{item.price}}</td>
+
+                            </tr>
+                        {{/each}}
+
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+{{/order}}
+
+
+
+
+<style>
+    #headInfoSupplier {
+
+        border-bottom: 3px solid whitesmoke;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    #infoSupplier {
+
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+
+
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #modifySupplier {
+        margin-right: 0px;
+    }
+
+    #removeSuplier {
+        border-bottom: 3px solid whitesmoke;
+        font-size: 12px;
+        margin-right: 0px;
+    }
+</style>
+
+<script>
+    if (performance.navigation.type==2) {
+        location.reload();
+    }
+</script>
+</body>
