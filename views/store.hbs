@@ -52,7 +52,7 @@
             <td class="d-none d-md-table-cell">{{author}}</td>
             <td>{{publisher}}</td>
             <td class="table-action">
-                <form id="detail" method="post" action="/store/{{_id}}">
+                <form id="detail" style="float: left; padding: 5px;" method="post" action="/store/{{_id}}">
                     <input type="hidden" name="page" value="{{currentPage}}"/>
                     <input type="hidden" name="item" value="{{resPerPage}}"/>
                     <a onclick="document.getElementById('detail').submit();"><i class="align-middle"
@@ -65,7 +65,7 @@
              <a href="/store/{{_id}}/modify"><i class="align-middle" data-feather="edit-2"></i></a>
             -->
 
-                <form id="edit" method="post" action="/store/{{_id}}/modify">
+                <form id="edit" style="float: left; padding: 5px;" method="post" action="/store/{{_id}}/modify">
                     <input type="hidden" name="page" value="{{currentPage}}"/>
                     <input type="hidden" name="item" value="{{resPerPage}}"/>
                     <a onclick="document.getElementById('edit').submit();"><i class="align-middle"

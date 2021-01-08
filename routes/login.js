@@ -8,11 +8,9 @@ const adminService=require('../models/adminService');
 router.get('/',adminController.login);
 router.post('/', passport.authenticate('local', {
     successRedirect: '/index',
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
 }));
-
-
 
 
 

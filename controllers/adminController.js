@@ -21,9 +21,8 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.logout = (req, res) => {
-    req.session.destroy(function (err)
-    {
-        return res.redirect('/users/login');
+    req.session.destroy((err) => {
+        return res.redirect('/login');
     })
 }
 
@@ -74,7 +73,7 @@ module.exports.resetPass = async (req, res) => {
             title: 'Đặt Lại Mật Khẩu | WebDev468',
             isGet: true
         });
-    }else{
+    } else {
         res.render('signIn/resetPass', {
             layout: 'loginLayout',
             title: 'Lỗi | WebDev468',
@@ -113,89 +112,77 @@ module.exports.postResetPass = async (req, res) => {
     });
 }
 
-exports.RenderProfile=async(req,res,next)=>
-{
-    const ID=req.user._id;
+exports.RenderProfile = async (req, res, next) => {
+    const ID = req.user._id;
     console.log(ID);
 
-    const user={};
-    user.TenDangNhap=req.user.username;
-    user.TenNhanVien=req.user.name;
-    user.Email=req.user.email;
-    user.DiaChi=req.user.address;
-    user.GioiTinh=req.user.gender;
-    user.SDT=req.user.phone;
+    const user = {};
+    user.TenDangNhap = req.user.username;
+    user.TenNhanVien = req.user.name;
+    user.Email = req.user.email;
+    user.DiaChi = req.user.address;
+    user.GioiTinh = req.user.gender;
+    user.SDT = req.user.phone;
 
-    res.render('profile',{title:'Thông tin tài khoản',user:user});
+    res.render('profile', {title: 'Thông tin tài khoản', user: user});
 }
-exports.RenderModify=function(req,res,next)
-{
-    const ID=req.user._id;
+exports.RenderModify = function (req, res, next) {
+    const ID = req.user._id;
     console.log(req.user);
 
-    const user={};
-    user.TenDangNhap=req.user.username;
-    user.TenNhanVien=req.user.name;
-    user.Email=req.user.email;
-    user.DiaChi=req.user.address;
-    user.GioiTinh=req.user.gender;
-    user.SDT=req.user.phone;
-    res.render('profileModify',{title:'Chỉnh sửa tài khoản',user:user});
+    const user = {};
+    user.TenDangNhap = req.user.username;
+    user.TenNhanVien = req.user.name;
+    user.Email = req.user.email;
+    user.DiaChi = req.user.address;
+    user.GioiTinh = req.user.gender;
+    user.SDT = req.user.phone;
+    res.render('profileModify', {title: 'Chỉnh sửa tài khoản', user: user});
 }
 
-CompleChangePass=function(req,res)
-{
-    req.flash('Message','Cập nhật thành công');
+CompleChangePass = function (req, res) {
+    req.flash('Message', 'Cập nhật thành công');
     res.redirect('/profile');
 }
 
-exports.postModify=async(req,res,next)=>
-{
-    const user={};
-     user.email=req.body.Email;
-    user.address=req.body.DiaChi;
-     user.gender=req.body.GioiTinh;
-     user.name=req.body.TenNhanVien;
-     user.phone=req.body.phone;
-     await adminModel.Update(req.user._id,user).then('/profile');
+exports.postModify = async (req, res, next) => {
+    const user = {};
+    user.email = req.body.Email;
+    user.address = req.body.DiaChi;
+    user.gender = req.body.GioiTinh;
+    user.name = req.body.TenNhanVien;
+    user.phone = req.body.phone;
+    await adminModel.Update(req.user._id, user).then('/profile');
 }
-exports.RenderChangePassword=function(req,res)
-{
-    let MessageArr=[];
-    let message=req.flash('Message');
+exports.RenderChangePassword = function (req, res) {
+    let MessageArr = [];
+    let message = req.flash('Message');
 
 
-        MessageArr.message=message;
+    MessageArr.message = message;
 
-    res.render('changepassword',{title:'Thay đổi mật khẩu',Message:message});
+    res.render('changepassword', {title: 'Thay đổi mật khẩu', Message: message});
 }
 
-exports.postChangePassword=async (req, res) => {
+exports.postChangePassword = async (req, res) => {
     const pass = req.body.MatKhau;
     const newPass = req.body.MatKhauMoi;
     const confirmNewPass = req.body.XacNhanMatKhauMoi;
     const bcrypt = require('bcryptjs');
 
     const login = await bcrypt.compare(pass, req.user.password);
-    if (login==true && newPass==confirmNewPass)
-    {
+    if (login == true && newPass == confirmNewPass) {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(newPass, saltRounds);
 
-            await adminModel.ChangePassword(req.user._id,hashedPassword).then(
-                CompleChangePass(req,res)
-            );
-    }
-
-
-    else if (login==false)
-    {
+        await adminModel.ChangePassword(req.user._id, hashedPassword).then(
+            CompleChangePass(req, res)
+        );
+    } else if (login == false) {
         req.flash('Message', 'Mật khẩu hiện tại không đúng');
         res.redirect('/profile/changepassword');
 
-    }
-
-    else {
+    } else {
         req.flash('Message', 'Mật khẩu mới không khớp');
         res.redirect('/profile/changepassword');
     }

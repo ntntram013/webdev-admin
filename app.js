@@ -14,13 +14,13 @@ const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 
 const passport = require('./passport');
+const authenthicateMid = require('./middlewares/auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const storeRouter = require('./routes/store');
 const loginRouter = require('./routes/login');
-const profileRouter=require('./routes/profile');
-const defaultRouter=require('./routes/defaultRoute');
-
+const profileRouter = require('./routes/profile');
+const defaultRouter = require('./routes/defaultRoute');
 
 const app = express();
 
@@ -53,16 +53,16 @@ app.use((req, res, next) => {
     res.locals.err = req.flash('err');
     next();
 });
-
-const authenthicateMid=require('./middlewares/auth');
+// authentication middlewares
 app.use(authenthicateMid.requireAuth);
+
 // routes ======================================================================
-app.use('/',defaultRouter);
-app.use('/login',loginRouter);
+app.use('/', defaultRouter);
+app.use('/login', loginRouter);
 app.use('/index', indexRouter);
-app.use('/users',usersRouter);
-app.use('/store',storeRouter);
-app.use('/profile',profileRouter);
+app.use('/users', usersRouter);
+app.use('/store', storeRouter);
+app.use('/profile', profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -79,8 +79,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-
 
 
 module.exports = app;

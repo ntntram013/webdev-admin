@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const {db} = require('../dal/adminDal')
+const {db} = require('../dal/accountDal')
 const adminModel = require('../models/adminModel');
 
 module.exports.checkCredential = async (loginInfo, password) => {
