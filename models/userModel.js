@@ -1,5 +1,4 @@
 const {ObjectId} = require('mongodb');
-const slugify = require('slugify');
 
 const {db} = require('../dal/accountDal')
 
@@ -25,12 +24,6 @@ module.exports.updateField = async (id,field,fieldValue) => {
         $set: updateVal
     });
 }
-
-module.exports.testblock = async (id) => {
-    const userCollection = db().collection('User');
-    await userCollection.updateOne({"_id": ObjectId(id)}, {$set: {'isBlocked': true}});
-}
-
 
 module.exports.Pagination = async (itemPerPage, currentPage) => {
     const userCollection = db().collection('User');

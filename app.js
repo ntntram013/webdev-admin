@@ -13,14 +13,24 @@ console.log(require('dotenv').config());
 const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 
+
+
+
+
+
+
+
+
+
 const passport = require('./passport');
 const authenthicateMid = require('./middlewares/auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const storeRouter = require('./routes/store');
 const loginRouter = require('./routes/login');
-const profileRouter = require('./routes/profile');
-const defaultRouter = require('./routes/defaultRoute');
+const profileRouter=require('./routes/profile');
+const defaultRouter=require('./routes/defaultRoute');
+const orderRouter=require('./routes/order');
 
 const app = express();
 
@@ -30,6 +40,39 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', exphbs({
     extname: '.hbs',
     defaultLayout: 'layout',
+    helpers:
+        {
+            Compare:function(v1,operator,v2,options) {
+
+                v1 = parseInt(v1);
+                v2 = parseInt(v2);
+
+                switch (operator) {
+                    case '==':
+                        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                    case '===':
+                        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                    case '!=':
+                        return (v1 != v2) ? options.fn(this) : options.inverse(this);
+                    case '!==':
+                        return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+                    case '<':
+                        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                    case '<=':
+                        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                    case '>':
+                        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                    case '>=':
+                        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                    case '&&':
+                        return (v1 && v2) ? options.fn(this) : options.inverse(this);
+                    case '||':
+                        return (v1 || v2) ? options.fn(this) : options.inverse(this);
+                    default:
+                        return options.inverse(this);
+                }
+            }
+        }
 }));
 app.set('view engine', 'hbs');
 
@@ -63,6 +106,8 @@ app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/store', storeRouter);
 app.use('/profile', profileRouter);
+app.use('/order', orderRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -79,6 +124,13 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+
+
+
+
+
+
 
 
 module.exports = app;
