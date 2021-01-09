@@ -3,17 +3,45 @@ const userModel=require('../models/userModel');
 
 exports.RenderOrderList=async(req,res,next)=>
 {
-    const currentPage=parseFloat(req.query.page || 1);
+    let currentPage=req.query.page || 1;
+    currentPage=parseInt(currentPage);
 
 
-    const ItemPerPage=parseFloat(req.query.item || 5);
+    let ItemPerPage=req.query.item || 5;
+    ItemPerPage=parseInt(ItemPerPage);
 
     const totalRow=await orderModel.totalRow();
 
     const totalPage=Math.ceil(totalRow/ItemPerPage);
 
 
-    const orderPerPage=await orderModel.Pagination(ItemPerPage,currentPage);
+    let orderPerPage=await orderModel.Pagination(ItemPerPage,currentPage);
+    for(let i=0;i<orderPerPage.length;i++)
+    {
+        orderPerPage[i].Status=orderPerPage[i].status;
+
+        switch (orderPerPage[i].status)
+        {
+            case 'Processing':
+                orderPerPage[i].Status=1;
+                break;
+
+            case 'Deliver':
+                orderPerPage[i].Status=2;
+                break;
+
+            case 'Delivered':
+                orderPerPage[i].Status=3;
+                break;
+
+        }
+
+    }
+
+
+
+
+
 
 
 
@@ -33,8 +61,8 @@ exports.RenderOrderList=async(req,res,next)=>
 
     let length=orderPerPage.length;
 
-    res.render('order',{title:'Quản lý đơn hàng',currentPage:currentPage,IsHasNext,IsHasPrev,
-    nextPage,previousPage,orderPerPage,resPerPage:ItemPerPage,
+    res.render('order',{title:'Quản lý đơn hàng',currentPage:currentPage,IsHasNext:IsHasNext,IsHasPrev:IsHasPrev,
+    nextPage:nextPage,previousPage:previousPage,orderPerPage:orderPerPage,resPerPage:ItemPerPage,
     length
 
     });
@@ -57,9 +85,27 @@ exports.RenderDetail=async(req,res,next)=>
     console.log(id);
     let user;
     let order=await orderModel.Detail(id);
+
+    switch(order.status)
+    {
+        case 'Processing':
+            order.Status=1;
+            break;
+        case 'Deliver':
+            order.Status=2;
+            break;
+        case 'Delivered':
+            order.Status=3;
+            break;
+    }
+
+
     console.log(order);
-    user=await userModel.Detail(order.userID);
-    res.render('orderDetail',{title:'Chi tiết đơn hàng',order,user});
+
+    console.log(user);
+
+    user=await userModel.Detail(order.userId);
+    res.render('orderDetail',{title:'Chi tiết đơn hàng',order:order,user:user});
 
 
 }

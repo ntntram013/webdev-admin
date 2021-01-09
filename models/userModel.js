@@ -5,7 +5,7 @@ exports.Detail=async(id)=>
 {
 
     const userCollection = db().collection('User');
-    const user=await userCollection.find({'_id':ObjectId(id)});
+    const user=await userCollection.findOne({'_id':ObjectId(id)});
     return user;
 
 }

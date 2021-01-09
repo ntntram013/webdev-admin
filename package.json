@@ -17,7 +17,6 @@
         "express-handlebars": "^4.0.6",
         "express-session": "^1.17.1",
         "formidable": "^1.2.2",
-        "handlebars": "^4.5.3",
         "handlebars-helpers": "^0.10.0",
         "hbs": "^4.1.1",
         "http-errors": "~1.6.3",
@@ -30,6 +29,7 @@
         "slugify": "^1.4.6"
     },
     "devDependencies": {
-        "cloudinary": "^1.23.0"
+        "cloudinary": "^1.23.0",
+        "handlebars": "^4.5.0"
     }
 }

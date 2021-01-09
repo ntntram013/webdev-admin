@@ -52,9 +52,9 @@
                 <form method="post" action="">
                     <select name="changeStatus" id="select{{@index}}"  class="custom-select my-1 mr-sm-2"
                             >
-                        <option {{#Compare this.status '===' "Processing"}} selected {{/Compare}}  value="Processing">Processing</option>
-                        <option {{#Compare this.status '===' "Delivered"}} selected {{/Compare}}  value="Delivered">Delivered</option>
-                        <option {{#Compare this.status '===' "Deliver"}} selected {{/Compare}} value="Deliver">Deliver</option>
+                        <option {{#Compare this.Status '==' 1}} selected {{/Compare}}  value="Processing">Processing</option>
+                        <option {{#Compare this.Status '==' 2}} selected {{/Compare}}  value="Deliver">Deliver</option>
+                        <option {{#Compare this.Status '==' 3}} selected {{/Compare}} value="Delivered">Delivered</option>
                     </select>
                     <input class="orderid" type="hidden" name="orderid" id="orderid{{@index}}" value="{{this._id}}"/>
 
@@ -77,12 +77,11 @@
     </tbody>
 
 </table>
-{{#if dontFindTitle}}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
                 {{#if IsHasPrev}}
-                    <a class="page-link" href="/store/?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
+                    <a class="page-link" href="/order?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     </a>
                 {{/if}}
@@ -100,38 +99,7 @@
             {{/if}}
             <li class="page-item">
                 {{#if IsHasNext}}
-                    <a class="page-link" href="/store/?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    </a>
-                {{/if}}
-            </li>
-        </ul>
-    </nav>
-{{else}}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                {{#if IsHasPrev}}
-                    <a class="page-link" href="/store/?title={{title}}&page={{previousPage}}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    </a>
-                {{/if}}
-            </li>
-            {{#if IsHasPrev}}
-                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{previousPage}}
-                    &item={{resPerPage}}">{{previousPage}}</a></li>
-            {{/if}}
-            <li class="page-item  active"><a class="page-link" href="/store/?title={{title}}&page={{currentPage}}
-                &item={{resPerPage}}">{{currentPage}}</a></li>
-
-            {{#if IsHasNext}}
-                <li class="page-item"><a class="page-link" href="/store/?title={{title}}&page={{nextPage}}
-                    &item={{resPerPage}}">{{nextPage}}</a></li>
-            {{/if}}
-            <li class="page-item">
-                {{#if IsHasNext}}
-                    <a class="page-link" href="/store/?title={{title}}&page={{nextPage}}&item={{resPerPage}}"
-                    aria-label="Next">
+                    <a class="page-link" href="/order?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     </a>
                 {{/if}}
@@ -139,12 +107,18 @@
         </ul>
     </nav>
 
-{{/if}}
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
+
+
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
 
     $(document).ready(function() {
 

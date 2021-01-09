@@ -1,3 +1,5 @@
+
+
 <body>
 {{#order}}
     <div class="row">
@@ -8,21 +10,16 @@
                     <p>Thông tin đơn hàng</p>
                 </div>
 
-                <div class="float-right">
-                    <a href="/profile/modify" class="btn btn-primary">Chỉnh sửa</a>
-                </div>
-
-
             </div>
 
             <div class="card-body">
 
                 <div class="row" id="infoSupplier">
                     <div class="col-sm-4">
-                        <h4>Mã đơn hàng</h4>
+                        <h5>Mã đơn hàng</h5>
                     </div>
                     <div class="col-sm-8">
-                        <h4>{{_id}}</h4>
+                        <h5>{{_id}}</h5>
                     </div>
 
                 </div>
@@ -30,13 +27,35 @@
 
                 <div class="row" id="infoSupplier">
                     <div class="col-sm-4">
-                        <h4>Thời gian lập</h4>
+                        <h5>Thời gian lập</h5>
                     </div>
                     <div class="col-sm-8">
-                        <h4>{{date}}</h4>
+                        <h5>{{date}}</h5>
                     </div>
 
                 </div>
+
+                <div class="row" id="infoSupplier">
+                    <div class="col-sm-4">
+                        <h5>Tình trạng</h5>
+                    </div>
+                    <div class="col-sm-8">
+
+                        <form method="post" action="">
+                            <select name="changeStatus" id="selectstatus"  class="form-select form-select-sm my-1 mr-sm-2"
+                            >
+                                <option {{#Compare Status '==' 1}} selected {{/Compare}}  value="Processing"><h5>Processing</h5></option>
+                                <option {{#Compare Status '==' 2}} selected {{/Compare}}  value="Deliver"><h5>Deliver</h5></option>
+                                <option {{#Compare Status '==' 3}} selected {{/Compare}} value="Delivered"><h5>Delivered</h5></option>
+                            </select>
+                            <input  type="hidden" name="orderid" id="orderid" value="{{_id}}"/>
+
+                        </form>
+                    </div>
+
+                </div>
+
+
             </div>
 
         </div>
@@ -75,11 +94,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#each this.cart.items as |item|}}
+                        {{#each cart.items as |item|}}
                             <tr>
                                 <td>{{item.item.isbn}}</td>
                                 <td>{{item.item.bookName}}</td>
-                                <td class="d-none d-md-table-cell">{{item.item.qty}}</td>
+                                <td class="d-none d-md-table-cell">{{item.qty}}</td>
                                 <td>{{item.item.price}}</td>
                                 <td>{{item.price}}</td>
 
@@ -94,6 +113,18 @@
                 </div>
             </div>
 
+            <div class="row">
+
+                <div class="text-right">
+                    <h5>Tổng tiền thanh toán: {{cart.totalPrice}}</h5>
+                </div>
+
+
+
+
+
+            </div>
+
         </div>
 
 
@@ -102,6 +133,92 @@
 
 
 {{/order}}
+
+{{#user}}
+
+
+<div class="row">
+    <div class="card">
+        <div class="card-header" style='height: 50%'id="headInfoSupplier">
+
+            <div class="float-left">
+                <p>Thông tin khách hàng</p>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+
+            <div class="row" id="infoSupplier">
+                <div class="col-sm-4">
+                    <h5>Mã khách hàng</h5>
+                </div>
+                <div class="col-sm-8">
+                    <h5>{{_id}}</h5>
+                </div>
+
+            </div>
+
+
+            <div class="row" id="infoSupplier">
+                <div class="col-sm-4">
+                    <h5>Tên khách hàng</h5>
+                </div>
+                <div class="col-sm-8">
+                    <h5>{{name}}</h5>
+                </div>
+
+            </div>
+
+{{/user}}
+
+            {{#order}}
+            <div class="row" id="infoSupplier">
+                <div class="col-sm-4">
+                    <h5>SDT khách hàng</h5>
+                </div>
+                <div class="col-sm-8">
+                    <h5>{{info.userPhone}}</h5>
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="row" id="infoSupplier">
+                <div class="col-sm-4">
+                    <h5>Địa chỉ</h5>
+                </div>
+                <div class="col-sm-8">
+                    <h5>{{info.userAddress}}</h5>
+                </div>
+
+            </div>
+
+
+            <div class="row" id="infoSupplier">
+                <div class="col-sm-4">
+                    <h5>Ghi chú</h5>
+                </div>
+                <div class="col-sm-8">
+                    <h5>{{info.userNote}}</h5>
+                </div>
+
+            </div>
+
+                {{/order}}
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
 
 
 
@@ -135,9 +252,26 @@
     }
 </style>
 
-<script>
-    if (performance.navigation.type==2) {
-        location.reload();
-    }
-</script>
+
 </body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+            $('#selectstatus').on('change', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/order/changestatus',
+                    data: {status: $('#selectstatus').val(), orderID: $('#orderid').val()},
+                    dataType: 'html',
+                    success: function () {
+                      console.log('Cập nhật thành công');
+                    }
+                });
+            })
+    });
+</script>
