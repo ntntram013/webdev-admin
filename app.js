@@ -23,6 +23,7 @@ const flash = require('connect-flash');
 
 
 const passport = require('./passport');
+const authenthicateMid = require('./middlewares/auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const storeRouter = require('./routes/store');
@@ -95,17 +96,17 @@ app.use((req, res, next) => {
     res.locals.err = req.flash('err');
     next();
 });
-
-const authenthicateMid=require('./middlewares/auth');
+// authentication middlewares
 app.use(authenthicateMid.requireAuth);
+
 // routes ======================================================================
-app.use('/',defaultRouter);
-app.use('/login',loginRouter);
+app.use('/', defaultRouter);
+app.use('/login', loginRouter);
 app.use('/index', indexRouter);
-app.use('/users',usersRouter);
-app.use('/store',storeRouter);
-app.use('/profile',profileRouter);
-app.use('/order',orderRouter);
+app.use('/users', usersRouter);
+app.use('/store', storeRouter);
+app.use('/profile', profileRouter);
+app.use('/order', orderRouter);
 
 
 // catch 404 and forward to error handler

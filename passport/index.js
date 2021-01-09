@@ -3,24 +3,19 @@ let passport = require('passport')
 
 const adminService = require('../models/adminService');
 
-passport.use(new LocalStrategy({usernameField:'username',passwordnameField:'password',passReqToCallback: true},
+passport.use(new LocalStrategy({usernameField: 'username', passwordnameField: 'password', passReqToCallback: true},
     async (req, username, password, done) => {
-        try{
-
+        try {
             const user = await adminService.checkCredential(username, password);
             if (user === -1) {
-                console.log('Mật khẩu không đúng');
                 return done(null, false, req.flash('err', 'Mật khẩu không đúng!'));
             }
             if (user === 0) {
-                console.log('Mật khẩu không đúng');v
                 return done(null, false, req.flash('err', 'Tài khoản không tồn tại!'));
             }
             return done(null, user);
-        }catch(e)
-        {
-            console.log('Lỗi');
-            return done(null,false,{message:"Có lỗi xảy ra"});
+        } catch (e) {
+            return done(null, false, req.flash('err', 'Có lỗi xảy ra!'));
         }
     }
 ));

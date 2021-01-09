@@ -5,9 +5,7 @@
         </a>
 
         <ul class="sidebar-nav">
-            <li class="sidebar-header">
-                Quản lý
-            </li>
+            <li class="sidebar-header">Quản lý</li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="/index">
@@ -17,10 +15,18 @@
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="/store/?page=1&item=5">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Quản lý sách</span>
+                    <i class="align-middle" data-feather="database"></i> <span class="align-middle">Danh sách sách</span>
                 </a>
             </li>
 
+            <li class="sidebar-item">
+                <a href="#user" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Khách hàng</span>
+                </a>
+                <ul id="user" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/users/?page=1&item=5">Danh sách tài khoản</a></li>
+                </ul>
+            </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="/order">
@@ -29,6 +35,8 @@
             </li>
 
         </ul>
+
+
 
 
     </div>

@@ -1,7 +1,7 @@
 const {ObjectId} = require('mongodb');
 const bcrypt = require('bcryptjs');
 
-const {db} = require("../dal/adminDal");
+const {db} = require("../dal/accountDal");
 const adminService = require('../models/adminService');
 
 exports.getTheOnlyAdmin = async () => {
