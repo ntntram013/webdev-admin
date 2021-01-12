@@ -31,6 +31,7 @@ const loginRouter = require('./routes/login');
 const profileRouter=require('./routes/profile');
 const defaultRouter=require('./routes/defaultRoute');
 const orderRouter=require('./routes/order');
+const catalogRouter=require('./routes/catalog');
 
 const app = express();
 
@@ -107,6 +108,7 @@ app.use('/users', usersRouter);
 app.use('/store', storeRouter);
 app.use('/profile', profileRouter);
 app.use('/order', orderRouter);
+app.use('/catalog',catalogRouter);
 
 
 // catch 404 and forward to error handler
