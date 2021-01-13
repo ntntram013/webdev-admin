@@ -128,3 +128,10 @@ exports.TotalProduct = async (filterName) => {
     }
 
 }
+
+
+exports.getCoverForm = async (id) =>{
+    const coverCollection = db().collection('Cover');
+    const result = await coverCollection.findOne({_id:ObjectId(id)});
+    return result.coverName;
+}

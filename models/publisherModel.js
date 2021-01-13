@@ -48,3 +48,13 @@ exports.add=async(name)=>
         };
     await publisherCollection.insertOne(publisher);
 }
+exports.getPublisher = async (id) =>{
+    const publisherCollection = db().collection('Publisher');
+    const result = await publisherCollection.findOne({_id:ObjectId(id)});
+    return result.publisherName;
+}
+exports.list = async () => {
+    const publisherCollection = db().collection('Publisher');
+    const publisherList = await publisherCollection.find({'isDeleted': false}).toArray();
+    return publisherList;
+}

@@ -10,9 +10,13 @@ cloudinary.config({
 
 
 const bookModel=require('../models/BookModel');
+const publisherModel=require('../models/publisherModel');
+const categoryModel=require('../models/catalogModel');
 exports.index=async(req,res,next)=>
 {
-    const book=await bookModel.list();
+    let [book,publisher] = await Promise.all(
+        [bookModel.list(),publisherModel.list()]);
+
     res.render('store',{title:'Danh sách',book});
 }
 
@@ -32,14 +36,20 @@ exports.modify = async (req,res,next)=> {
 }
 exports.detail = async (req, res, next) =>
 {
-    const book = await bookModel.detail(req.params.id);
 
+    const book = await bookModel.detail(req.params.id);
+    let [publisherName, category, cover] = await Promise.all(
+        [publisherModel.getPublisher(book.publisherID),
+                categoryModel.getCategory(book.categoryID),bookModel.getCoverForm(book.coverForm)]);
     const page=req.body.page;
     const item=req.body.item;
     console.log(page);
     book.page=page;
+    book.publisherName = publisherName;
+    book.category = category;
+    book.coverForm = cover;
     book.item=item;
-    res.render('bookDetail', {title: 'Chỉnh sửa', book,page,item});
+    res.render('bookDetail', {title: 'Chỉnh sửa', book, page,item});
 }
 
 
@@ -56,7 +66,9 @@ exports.postAdd=async(req,res,next)=>
             return;
         }
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
-        if(files.imageFile && files.imageFile.size> 0){
+        let arrayOfFiles = files[""];
+
+        if(arrayOfFiles.length > 0){
             cloudinary.uploader.upload(files.imageFile.path,
                 function(error, result) {
                     console.log(result, error);
@@ -77,11 +89,6 @@ exports.postModify=async(req,res,next)=>
 {
 
 
-
-
-
-
-
     const form = formidable({multiple: true});
 
     await form.parse(req, (err, fields, files) =>{
@@ -90,9 +97,10 @@ exports.postModify=async(req,res,next)=>
             return;
         }
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
-        if(files.imageFile.size> 0){
+        let arrayOfFiles = files[""];
+        if(files.imageFile.size> 0) {
             cloudinary.uploader.upload(files.imageFile.path,
-                function(error, result) {
+                function (error, result) {
                     console.log(result, error);
                     fields.bookImage = result.secure_url;
                     bookModel.update(req.params.id, fields).then(res.redirect(backUrl));

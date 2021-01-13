@@ -49,3 +49,8 @@ exports.add=async(name)=>
 
     catalogCollection.insertOne(catalog);
 }
+exports.getCategory = async (id) =>{
+    const catalogCollection = db().collection('Catalog');
+    const result = await catalogCollection.findOne({_id:ObjectId(id)});
+    return result.catalogName;
+}
