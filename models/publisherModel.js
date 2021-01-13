@@ -43,7 +43,8 @@ exports.add=async(name)=>
     const publisherCollection = db().collection("Publisher");
     const publisher=
         {
-            publisherName:name
+            publisherName:name,
+            isDeleted:false
         };
     await publisherCollection.insertOne(publisher);
 }

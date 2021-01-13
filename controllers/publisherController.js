@@ -72,12 +72,16 @@ exports.RenderAdd=function(req,res,next)
 exports.postAdd=async(req,res,next)=>
 {
     const name=req.body.publisherName;
-    if (name.length!=0)
+    if (name.length==0)
     {
         req.flash('error','Không thể nhập chuỗi rỗng');
         res.redirect('/publisher/add');
 
     }
+    else
+    {
+        await publisherModel.add(name).then(res.redirect('/publisher'));
+    }
 
-    await publisherModel.add(name).then(res.redirect('/publisher'));
+
 }

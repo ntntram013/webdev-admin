@@ -72,12 +72,16 @@ exports.RenderAdd=function(req,res,next)
 exports.postAdd=async(req,res,next)=>
 {
     const name=req.body.catalogName;
-    if (name.length!=0)
+    if (name.length==0)
     {
         req.flash('error','Không thể nhập chuỗi rỗng');
         res.redirect('/catalog/add');
 
     }
+    else
+    {
+        await catalogModel.add(name).then(res.redirect('/catalog'));
+    }
 
-    await catalogModel.add(name).then(res.redirect('/catalog'));
+
 }

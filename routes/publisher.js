@@ -8,7 +8,7 @@ router.get('/:_id/modify',publisherController.changeName);
 router.post('/:_id/modify',publisherController.postChangeName);
 
 router.get('/add',publisherController.RenderAdd);
-
+router.post('/add',publisherController.postAdd);
 
 
 //router.get('/:id/delete', userController.delete);

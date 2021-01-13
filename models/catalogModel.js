@@ -43,7 +43,8 @@ exports.add=async(name)=>
     const catalogCollection = db().collection("Catalog");
     const catalog=
         {
-            catalogName: name
+            catalogName: name,
+            isDeleted:false
         }
 
     catalogCollection.insertOne(catalog);
