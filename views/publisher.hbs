@@ -1,0 +1,151 @@
+
+<input class="orderid" type="hidden"  id="length" value="{{length}}"/>
+
+
+
+<form name="type" class="form-inline">
+    <div class="form-group">
+        <div class="mb-3 row">
+            <div class="col-5">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Nhà xuất bản
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/catalog">Thể loại</a>
+                        <a class="dropdown-item" href="/publisher?page={{currentPage}}&item={{resPerPage}}">Nhà xuất bản</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <form name="itemPerPage" method="get" action="/publisher?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
+    <div class="form-group">
+        <div class="mb-3 row">
+            <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
+            <div class="col-5">
+                <select name="item" onchange="itemPerPage.submit()" class="custom-select my-1 mr-sm-2"
+                        id="inlineFormCustomSelectPref">
+                    <option {{#Compare resPerPage '==' 5}} selected {{/Compare}}  value="5">5</option>
+                    <option {{#Compare resPerPage '==' 10}} selected {{/Compare}}  value="10">10</option>
+                    <option {{#Compare resPerPage '==' 15}} selected {{/Compare}} value="15">15</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+<table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th style="width:15%;">Mã nhà xuất bản</th>
+        <th style="width:20%">Tên nhà xuất bản</th>
+        <th style="width:20%">Số lượng sách</th>
+        <th style="width:20%">Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each Publisher}}
+        <tr>
+            <td>{{this._id}}</td>
+            <td>
+
+                {{this.publisherName}}
+            </td>
+
+            <td>
+                {{this.bookNum}}
+            </td>
+
+
+            <td class="table-action">
+
+                <a href="/publisher/{{this._id}}/modify" id="edit{{@index}}"><i class="align-middle"  data-feather="edit"></i></a>
+            </td>
+
+        </tr>
+    {{/each}}
+    </tbody>
+
+</table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            {{#if IsHasPrev}}
+                <a class="page-link" href="/publisher?page={{previousPage}}&item={{resPerPage}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                </a>
+            {{/if}}
+        </li>
+        {{#if IsHasPrev}}
+            <li class="page-item"><a class="page-link" href="/publisher?page={{previousPage}}&item={{resPerPage}}
+                ">{{previousPage}}</a></li>
+        {{/if}}
+        <li class="page-item  active"><a class="page-link" href="/publisher?page={{currentPage}}&item={{resPerPage}}
+            ">{{currentPage}}</a></li>
+
+        {{#if IsHasNext}}
+            <li class="page-item"><a class="page-link" href="/publisher?page={{nextPage}}&item={{resPerPage}}
+                ">{{nextPage}}</a></li>
+        {{/if}}
+        <li class="page-item">
+            {{#if IsHasNext}}
+                <a class="page-link" href="/publisher?page={{nextPage}}&item={{resPerPage}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+            {{/if}}
+        </li>
+    </ul>
+</nav>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+
+    $(document).ready(function() {
+
+
+        let s=parseInt($('#length').val());
+
+
+
+
+        for (let $i=0;$i<s;$i++) {
+            $('#select' + $i).on('change', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/order/changestatus',
+                    data: {status: $('#select' + $i).val(), orderID: $('#orderid' + $i).val()},
+                    dataType: 'html',
+                    success: function () {
+                        alert('Thành công');
+                    }
+                });
+            })
+
+
+        }
+    });
+</script>
+
+
+
+
+
+
+

@@ -32,6 +32,7 @@ const profileRouter=require('./routes/profile');
 const defaultRouter=require('./routes/defaultRoute');
 const orderRouter=require('./routes/order');
 const catalogRouter=require('./routes/catalog');
+const publiserRouter=require('./routes/publisher');
 
 const app = express();
 
@@ -109,6 +110,7 @@ app.use('/store', storeRouter);
 app.use('/profile', profileRouter);
 app.use('/order', orderRouter);
 app.use('/catalog',catalogRouter);
+app.use('/publisher',publiserRouter);
 
 
 // catch 404 and forward to error handler

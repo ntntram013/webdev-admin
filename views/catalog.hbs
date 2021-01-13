@@ -1,13 +1,30 @@
 
 <input class="orderid" type="hidden"  id="length" value="{{length}}"/>
 
-<form class="d-none d-sm-inline-block float-right" method="get">
-    <div class="input-group">
+
+
+<form name="type" class="form-inline">
+<div class="form-group">
+    <div class="mb-3 row">
+        <div class="col-5">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Thể loại
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/catalog?page={{currentPage}}&item={{resPerPage}}">Thể loại</a>
+                    <a class="dropdown-item" href="/publisher">Nhà xuất bản</a>
+
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+
+</div>
 
 
-<form name="itemPerPage" method="get" action="/order?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
+
+<form name="itemPerPage" method="get" action="/catalog?page={{currentPage}}&item={{resPerPage}}" class="form-inline">
 <div class="form-group">
     <div class="mb-3 row">
         <label class="col-form-label col-7 text-sm-right" for="inlineFormCustomSelectPref">Số hàng dữ liệu</label>
@@ -39,7 +56,7 @@
             <td>{{this._id}}</td>
             <td>
 
-                <input type="text" id="catalog{{@index}}" placeholder="Nhập tên thể loại" readonly value="{{this.catalogName}}">
+             {{this.catalogName}}
                 </td>
 
             <td>
@@ -49,7 +66,7 @@
 
             <td class="table-action">
 
-                <a href="/catalog/{{this._id}}/modify" id="edit{{@index}}"><i class="align-middle"  data-feather="edit"></i></a
+                <a href="/catalog/{{this._id}}/modify" id="edit{{@index}}"><i class="align-middle"  data-feather="edit"></i></a>
             </td>
 
         </tr>
