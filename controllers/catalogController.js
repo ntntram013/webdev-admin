@@ -63,3 +63,21 @@ exports.postChangeName=async(req,res,next)=>
     const newName=req.body.catalogName;
     await catalogModel.modifyName(id,newName).then(res.redirect('/catalog'));
 }
+
+exports.RenderAdd=function(req,res,next)
+{
+    res.render('catalogAdd',{title:'Thêm thể loại mới'});
+}
+
+exports.postAdd=async(req,res,next)=>
+{
+    const name=req.body.catalogName;
+    if (name.length!=0)
+    {
+        req.flash('error','Không thể nhập chuỗi rỗng');
+        res.redirect('/catalog/add');
+
+    }
+
+    await catalogModel.add(name).then(res.redirect('/catalog'));
+}

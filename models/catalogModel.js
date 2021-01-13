@@ -37,3 +37,14 @@ exports.modifyName=async(id,name)=>
                 }
 })
 }
+
+exports.add=async(name)=>
+{
+    const catalogCollection = db().collection("Catalog");
+    const catalog=
+        {
+            catalogName: name
+        }
+
+    catalogCollection.insertOne(catalog);
+}

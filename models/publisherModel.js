@@ -37,3 +37,13 @@ exports.modifyName=async(id,name)=>
                 }
         })
 }
+
+exports.add=async(name)=>
+{
+    const publisherCollection = db().collection("Publisher");
+    const publisher=
+        {
+            publisherName:name
+        };
+    await publisherCollection.insertOne(publisher);
+}

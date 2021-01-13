@@ -63,3 +63,21 @@ exports.postChangeName=async(req,res,next)=>
     const newName=req.body.catalogName;
     await publisherModel.modifyName(id,newName).then(res.redirect('/publisher'));
 }
+
+exports.RenderAdd=function(req,res,next)
+{
+    res.render('publisherAdd',{title:'Thêm mới nhà xuất bản'});
+}
+
+exports.postAdd=async(req,res,next)=>
+{
+    const name=req.body.publisherName;
+    if (name.length!=0)
+    {
+        req.flash('error','Không thể nhập chuỗi rỗng');
+        res.redirect('/publisher/add');
+
+    }
+
+    await publisherModel.add(name).then(res.redirect('/publisher'));
+}

@@ -6,6 +6,7 @@ const catalogController = require('../controllers/catalogController');
 router.get('/',catalogController.pagination);
 router.get('/:_id/modify',catalogController.changeName);
 router.post('/:_id/modify',catalogController.postChangeName);
+router.get('/add',catalogController.RenderAdd);
 
 
 //router.get('/:id/delete', userController.delete);
