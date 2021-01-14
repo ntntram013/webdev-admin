@@ -8,19 +8,6 @@ exports.list = async () => {
     const booksCollection = db().collection('Product');
     const bookList = await booksCollection.find({'isDeleted': false}).toArray();
 
-    const publisherCollection = db().collection('Publisher');
-
-    const a=await booksCollection.aggregate({
-        $lookup:{
-            from:publisherCollection,
-            localField:"publisherID",
-            foreignField:"_id",
-            as:"publisherName"
-        }
-    })
-
-    console.log(a);
-
     return bookList;
 }
 
@@ -122,20 +109,10 @@ exports.Pagination = async (itemPerPage, currentPage) => {
     const bookPerPage = await booksCollection.find({isDeleted: false}).skip((itemPerPage * currentPage) - itemPerPage).limit(itemPerPage).toArray();
 
 
-    const a=await booksCollection.aggregate([{
-
-        $lookup: {
-            from: 'Publisher',
-            localField: 'publisherID',
-            foreignField: '_id',
-            as: "publisherName"
-        }
-    }]).skip((itemPerPage*currentPage)-itemPerPage).limit((itemPerPage)).toArray();
 
 
 
-
-    return a;
+    return bookPerPage;
 
 }
 exports.PaginationFindTitle = async (searchName, itemPerPage, currentPage) => {

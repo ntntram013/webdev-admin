@@ -97,7 +97,6 @@ exports.postAdd=async(req,res,next)=>
         if(files.imageFile0.size> 0){
             await cloudinary.uploader.upload(files.imageFile0.path,
                 function(error, result) {
-                    console.log(result, error);
                     bookImage.push(result.secure_url);
                 });
         }
