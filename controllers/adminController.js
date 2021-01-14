@@ -152,7 +152,8 @@ exports.postModify = async (req, res, next) => {
     user.gender = req.body.GioiTinh;
     user.name = req.body.TenNhanVien;
     user.phone = req.body.phone;
-    await adminModel.Update(req.user._id, user).then('/profile');
+    await adminModel.Update(req.user._id, user);
+    res.redirect('/profile');
 }
 exports.RenderChangePassword = function (req, res) {
     let MessageArr = [];

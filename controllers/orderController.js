@@ -104,7 +104,7 @@ exports.RenderDetail=async(req,res,next)=>
 
     console.log(user);
 
-    user=await userModel.Detail(order.userId);
+    user=await userModel.detail(order.userId);
     res.render('orderDetail',{title:'Chi tiết đơn hàng',order:order,user:user});
 
 
