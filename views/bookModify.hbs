@@ -54,12 +54,22 @@
         <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-right">Thể loại</label>
             <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+
+
+                    {{/book}}
+                    {{#catalogList}}
+                        <option {{#Compare _id '==' }} selected {{/Compare}} value="{{_id}}">{{catalogName}}</option>
+                    {{/catalogList}}
+                </select>
+                <!--
                 <input type="text" class="form-control" name="category" value="{{category}}"
                        placeholder="Nhập thể loại">
+                       -->
             </div>
         </div>
 
-
+        {{#book}}
         <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
             <div class="col-sm-10">
@@ -94,9 +104,8 @@
             </div>
 
             <div class="col-sm-6 ml-sm-auto">
-                <a href="/store/?page={{page}}&item={{item}}">
-                <button type="button" class="btn btn-primary">Hủy</button>
-                </a>
+                <button type="button" onclick="window.history.back()"  class="btn btn-danger">Hủy</button>
+
             </div>
         </div>
     {{/book}}

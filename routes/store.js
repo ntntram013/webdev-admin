@@ -14,10 +14,10 @@ router.post('/addBook', bookController.add);
 router.post('/addBook/addToDb', bookController.postAdd);
 
 
-router.post('/:id', bookController.detail);
+router.get('/:id', bookController.detail);
 
 
-router.post('/:id/modify', bookController.modify);
+router.get('/:id/modify', bookController.modify);
 router.post('/:id/modify/updateToDb', bookController.postModify);
 
 router.get('/:id/delete', bookController.delete);

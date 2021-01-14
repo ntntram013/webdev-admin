@@ -50,27 +50,22 @@
             <td>{{isbn}}</td>
             <td>{{bookName}}</td>
             <td class="d-none d-md-table-cell">{{author}}</td>
-            <td>{{publisherName}}</td>
+            <td>{{publisher}}</td>
             <td class="table-action">
+                <a href="/store/{{_id}}"><i  class="align-middle" data-feather="eye"></i></a>
+                <!--
                 <form id="detail" style="float: left; padding: 5px;" method="post" action="/store/{{_id}}">
                     <input type="hidden" name="page" value="{{currentPage}}"/>
                     <input type="hidden" name="item" value="{{resPerPage}}"/>
                     <a onclick="document.getElementById('detail').submit();"><i class="align-middle"
                                                                                 data-feather="eye"></i></a>
                 </form>
-                <!--
-
 
             <a href="/store/{{_id}}"><i  class="align-middle" data-feather="eye"></i></a>
              <a href="/store/{{_id}}/modify"><i class="align-middle" data-feather="edit-2"></i></a>
             -->
 
-                <form id="edit" style="float: left; padding: 5px;" method="post" action="/store/{{_id}}/modify">
-                    <input type="hidden" name="page" value="{{currentPage}}"/>
-                    <input type="hidden" name="item" value="{{resPerPage}}"/>
-                    <a onclick="document.getElementById('edit').submit();"><i class="align-middle"
-                                                                              data-feather="edit-2"></i></a>
-                </form>
+
 
 
             </td>

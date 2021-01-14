@@ -1,5 +1,8 @@
 const formidable = require('formidable');
 let cloudinary = require('cloudinary').v2;
+
+const {ObjectId} = require('mongodb');
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -31,9 +34,22 @@ exports.modify = async (req,res,next)=> {
     const book = await bookModel.detail(req.params.id);
     const page=req.body.page;
     const item=req.body.item;
-    res.render('bookModify', {title: 'Chỉnh sửa', book,page,item});
+
+    const publisherList=await publisherModel.list();
+
+    const catalogList=await categoryModel.list();
+
+
+    console.log(catalogList.length);
+
+    book.choseCatalogName=await categoryModel.getCategory(book.categoryID);
+
+    res.render('bookModify', {title: 'Chỉnh sửa',catalogList:catalogList,publisherList, book,page,item});
 
 }
+
+
+
 exports.detail = async (req, res, next) =>
 {
 
@@ -214,8 +230,7 @@ exports.pagination=async(req,res,next)=>
     }
     for (i=0;i<productPerPage.length;i++)
     {
-        productPerPage[i].resPerPage=resPerPage;
-        productPerPage[i].currentPage=currentPage;
+        productPerPage[i].publisher=productPerPage[i].publisherName[0].publisherName;
     }
     res.render('store',{title:'Danh sách',book:productPerPage,previousPage:previousPage,nextPage:nextPage,IsHasPrev,IsHasNext,currentPage,resPerPage,
         itemOption2,

@@ -54,3 +54,9 @@ exports.getCategory = async (id) =>{
     const result = await catalogCollection.findOne({_id:ObjectId(id)});
     return result.catalogName;
 }
+
+exports.list = async () => {
+    const catalogCollection = db().collection('Catalog');
+    const catalogList = await catalogCollection.find({'isDeleted': false}).toArray();
+    return catalogList;
+}

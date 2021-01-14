@@ -1,10 +1,26 @@
 const {db} = require('../dal/book_dal')
 const {ObjectId} = require('mongodb');
 const slugify = require('slugify');
+const {db1}=require('../dal/catalogDal');
+
 
 exports.list = async () => {
     const booksCollection = db().collection('Product');
     const bookList = await booksCollection.find({'isDeleted': false}).toArray();
+
+    const publisherCollection = db().collection('Publisher');
+
+    const a=await booksCollection.aggregate({
+        $lookup:{
+            from:publisherCollection,
+            localField:"publisherID",
+            foreignField:"_id",
+            as:"publisherName"
+        }
+    })
+
+    console.log(a);
+
     return bookList;
 }
 
@@ -103,7 +119,22 @@ exports.delete = async (id) => {
 exports.Pagination = async (itemPerPage, currentPage) => {
     const booksCollection = db().collection('Product');
     const bookPerPage = await booksCollection.find({isDeleted: false}).skip((itemPerPage * currentPage) - itemPerPage).limit(itemPerPage).toArray();
-    return bookPerPage;
+
+    const publisherCollection = db().collection('Publisher');
+
+    const a=await booksCollection.aggregate([{
+        $lookup: {
+            from: 'Publisher',
+            localField: 'publisherID',
+            foreignField: '_id',
+            as: "publisherName"
+        }
+    }]).skip((itemPerPage*currentPage)-itemPerPage).limit((itemPerPage)).toArray();
+
+
+
+
+    return a;
 
 }
 exports.PaginationFindTitle = async (searchName, itemPerPage, currentPage) => {
