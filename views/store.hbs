@@ -36,11 +36,11 @@
 </form>
 <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
-    <tr>
+    <tr >
         <th style="width:15%;">Mã ISBN</th>
         <th style="width:25%">Tên sách</th>
         <th class="d-none d-md-table-cell" style="width:25%">Tác giả</th>
-        <th style="width:25%">Nhà xuất bản</th>
+        <th class="text-right pr-2" style="width:10%">Giá</th>
         <th style="width: 7%">Thao tác</th>
     </tr>
     </thead>
@@ -50,9 +50,9 @@
             <td>{{isbn}}</td>
             <td>{{bookName}}</td>
             <td class="d-none d-md-table-cell">{{author}}</td>
-            <td>{{publisher}}</td>
-            <td class="table-action">
-                <a href="/store/{{_id}}"><i  class="align-middle" data-feather="eye"></i></a>
+            <td class="text-right pr-2">{{price}} đ</td>
+            <td class="table-action d-flex align-content-around">
+                <a class="mx-auto" href="/store/{{_id}}"><i  class="align-middle" data-feather="eye"></i></a>
                 <!--
                 <form id="detail" style="float: left; padding: 5px;" method="post" action="/store/{{_id}}">
                     <input type="hidden" name="page" value="{{currentPage}}"/>

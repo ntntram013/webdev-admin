@@ -93,11 +93,11 @@ exports.update = async (id, bookUpdate) => {
     const book = {
         $set: {
             isbn: isbn,
-            category: category,
+            categoryID: category,
             bookImage: bookImage,
             bookName: bookName,
             author: author,
-            publisher: publisher,
+            publisherID: publisher,
             price: price,
             totalPage: totalPage,
             coverForm: coverForm,
@@ -120,9 +120,9 @@ exports.Pagination = async (itemPerPage, currentPage) => {
     const booksCollection = db().collection('Product');
     const bookPerPage = await booksCollection.find({isDeleted: false}).skip((itemPerPage * currentPage) - itemPerPage).limit(itemPerPage).toArray();
 
-    const publisherCollection = db().collection('Publisher');
 
     const a=await booksCollection.aggregate([{
+
         $lookup: {
             from: 'Publisher',
             localField: 'publisherID',
@@ -165,4 +165,9 @@ exports.getCoverForm = async (id) =>{
     const coverCollection = db().collection('Cover');
     const result = await coverCollection.findOne({_id:ObjectId(id)});
     return result.coverName;
+}
+exports.coverList= async () =>{
+    const coverCollection = db().collection('Cover');
+    const result = await coverCollection.find({'isDeleted': false}).toArray();
+    return result;
 }

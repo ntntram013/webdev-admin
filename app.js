@@ -21,7 +21,6 @@ const flash = require('connect-flash');
 
 
 
-
 const passport = require('./passport');
 const authenthicateMid = require('./middlewares/auth');
 const indexRouter = require('./routes/index');
@@ -44,6 +43,7 @@ app.engine('hbs', exphbs({
     defaultLayout: 'layout',
     helpers:
         {
+
             Compare:function(v1,operator,v2,options) {
 
                 v1 = parseInt(v1);
@@ -73,10 +73,19 @@ app.engine('hbs', exphbs({
                     default:
                         return options.inverse(this);
                 }
+            },
+            checkId: function (operator, curCatalog) {
+                if (operator.toString() == curCatalog.toString()) {
+                    console.log( "test" + operator.toString());
+                    return 'selected';
+                }
+                return'';
             }
+
         }
+
 }));
-app.set('view engine', 'hbs');
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -98,6 +107,7 @@ app.use((req, res, next) => {
     res.locals.err = req.flash('err');
     next();
 });
+
 // authentication middlewares
 app.use(authenthicateMid.requireAuth);
 

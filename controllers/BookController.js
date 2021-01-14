@@ -31,20 +31,24 @@ exports.add=async(req, res, next)=>
 }
 exports.modify = async (req,res,next)=> {
     console.log(req.params.id);
-    const book = await bookModel.detail(req.params.id);
+    let [book, publisherList, catalogList, coverList] = await Promise.all(
+        [bookModel.detail(req.params.id),publisherModel.list(),categoryModel.list(),bookModel.coverList()])
+    //const book = await ;
     const page=req.body.page;
     const item=req.body.item;
 
-    const publisherList=await publisherModel.list();
+    //const publisherList=await ;
 
-    const catalogList=await categoryModel.list();
+    //const catalogList=await categoryModel.list();
 
-
+    book.catalogList = catalogList;
+    book.publisherList = publisherList;
+    book.coverList =coverList;
     console.log(catalogList.length);
 
     book.choseCatalogName=await categoryModel.getCategory(book.categoryID);
 
-    res.render('bookModify', {title: 'Chỉnh sửa',catalogList:catalogList,publisherList, book,page,item});
+    res.render('bookModify', {title: 'Chỉnh sửa', book,page,item});
 
 }
 
@@ -228,10 +232,7 @@ exports.pagination=async(req,res,next)=>
     {
         IsHasNext=false;
     }
-    for (i=0;i<productPerPage.length;i++)
-    {
-        productPerPage[i].publisher=productPerPage[i].publisherName[0].publisherName;
-    }
+
     res.render('store',{title:'Danh sách',book:productPerPage,previousPage:previousPage,nextPage:nextPage,IsHasPrev,IsHasNext,currentPage,resPerPage,
         itemOption2,
         itemOption3,

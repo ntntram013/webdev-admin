@@ -25,13 +25,7 @@
         </div>
 
 
-        <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">Tên nhà xuất bản</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="publisher" value="{{publisher}}"
-                       placeholder="Nhập tên nhà xuất bản">
-            </div>
-        </div>
+
 
 
         <div class="mb-3 row">
@@ -50,17 +44,26 @@
             </div>
         </div>
 
-
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-right">Tên nhà xuất bản</label>
+            <div class="col-sm-10">
+                <select name="publisher" class="form-select" aria-label="Default select example">
+                    {{#publisherList}}
+                        <option {{checkId this._id ../publisherID}} value="{{_id}}">{{publisherName}}</option>
+                    {{/publisherList}}
+                </select>
+            </div>
+        </div>
         <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-right">Thể loại</label>
             <div class="col-sm-10">
-                <select class="form-select" aria-label="Default select example">
+                <select name="category" class="form-select" aria-label="Default select example">
 
 
-                    {{/book}}
-                    {{#catalogList}}
-                        <option {{#Compare _id '==' }} selected {{/Compare}} value="{{_id}}">{{catalogName}}</option>
-                    {{/catalogList}}
+
+                    {{#each catalogList}}
+                        <option {{checkId this._id ../categoryID}} value="{{_id}}">{{catalogName}}</option>
+                    {{/each}}
                 </select>
                 <!--
                 <input type="text" class="form-control" name="category" value="{{category}}"
@@ -69,12 +72,15 @@
             </div>
         </div>
 
-        {{#book}}
+
         <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="coverForm" value="{{coverForm}}"
-                       placeholder="Nhập hình thức bìa">
+                <select name="coverForm" class="form-select" aria-label="Default select example">
+                    {{#coverList}}
+                        <option {{checkId this._id ../coverForm}}  value="{{_id}}">{{coverName}}</option>
+                    {{/coverList}}
+                </select>
             </div>
         </div>
 
