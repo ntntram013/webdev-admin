@@ -71,7 +71,11 @@ exports.detail = async (req, res, next) =>
     book.category = category;
     book.coverForm = cover;
     book.item=item;
+
     res.render('bookDetail', {title: 'Chỉnh sửa', book, page,item});
+
+
+
 }
 
 
@@ -82,25 +86,38 @@ exports.postAdd=async(req,res,next)=>
 
     const form = formidable({multiple: true});
 
-    await form.parse(req, (err, fields, files) =>{
+    await form.parse(req, async (err, fields, files) =>{
         if(err){
             next(err);
             return;
         }
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
-        let arrayOfFiles = files[""];
+        let bookImage = [];
 
-        if(files.imageFile.size> 0){
-            cloudinary.uploader.upload(files.imageFile.path,
+        if(files.imageFile0.size> 0){
+            await cloudinary.uploader.upload(files.imageFile0.path,
                 function(error, result) {
                     console.log(result, error);
-                    fields.bookImage = result.secure_url;
-                    bookModel.add(fields).then(res.redirect(backUrl));
+                    bookImage.push(result.secure_url);
                 });
         }
-        else{
-            bookModel.add(fields).then(res.redirect(backUrl));
+        if(files.imageFile1.size> 0){
+           await cloudinary.uploader.upload(files.imageFile1.path,
+                function(error, result) {
+                    console.log(result, error);
+                    bookImage.push(result.secure_url);
+                });
         }
+        if(files.imageFile2.size> 0){
+            await cloudinary.uploader.upload(files.imageFile2.path,
+                function(error, result) {
+                    console.log(result, error);
+                    bookImage.push(result.secure_url);
+                });
+        }
+        console.log(bookImage);
+        bookModel.add(fields,bookImage).then(res.redirect(backUrl));
+
 
 
     });
@@ -113,24 +130,38 @@ exports.postModify=async(req,res,next)=>
 
     const form = formidable({multiple: true});
 
-    await form.parse(req, (err, fields, files) =>{
+    await form.parse(req, async (err, fields, files) =>{
         if(err){
             next(err);
             return;
         }
+        let bookImage = [fields.bookImage0,fields.bookImage1, fields.bookImage2];
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
-        let arrayOfFiles = files[""];
-        if(files.imageFile.size> 0) {
-            cloudinary.uploader.upload(files.imageFile.path,
-                function (error, result) {
+        let arrayOfFiles = files[''];
+        if(files.imageFile0.size> 0){
+            await cloudinary.uploader.upload(files.imageFile0.path,
+                function(error, result) {
                     console.log(result, error);
-                    fields.bookImage = result.secure_url;
-                    bookModel.update(req.params.id, fields).then(res.redirect(backUrl));
+                    bookImage[0]=result.secure_url;
                 });
         }
-        else{
-            bookModel.update(req.params.id, fields).then(res.redirect(backUrl));
+        if(files.imageFile1.size> 0){
+            await cloudinary.uploader.upload(files.imageFile1.path,
+                function(error, result) {
+                    console.log(result, error);
+                    bookImage[1]=result.secure_url;
+                });
         }
+        if(files.imageFile2.size> 0){
+            await cloudinary.uploader.upload(files.imageFile2.path,
+                function(error, result) {
+                    console.log(result, error);
+                    bookImage[2]=result.secure_url;
+                });
+        }
+
+            bookModel.update(req.params.id, fields,bookImage).then(res.redirect(backUrl));
+
 
 
     });

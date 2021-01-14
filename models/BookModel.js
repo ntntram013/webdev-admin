@@ -24,10 +24,10 @@ exports.list = async () => {
     return bookList;
 }
 
-exports.add = async (fields) => {
+exports.add = async (fields, newBookImage) => {
     const isbn = fields.isbn;
     const category = fields.category;
-    const bookImage = fields.bookImage;
+    const bookImage = newBookImage;
     const bookName = fields.bookName;
     const author = fields.author;
     const publisher = fields.publisher;
@@ -63,6 +63,7 @@ exports.add = async (fields) => {
 }
 exports.detail = async (id) => {
     const booksCollection = db().collection('Product');
+
     const book = await booksCollection.findOne({_id: ObjectId(id), isDeleted: false});
 
     return book;
@@ -70,10 +71,10 @@ exports.detail = async (id) => {
 }
 
 
-exports.update = async (id, bookUpdate) => {
+exports.update = async (id, bookUpdate, newBookImage) => {
     const isbn = bookUpdate.isbn;
     const category = bookUpdate.category;
-    const bookImage = bookUpdate.bookImage;
+    const bookImage = newBookImage;
     const bookName = bookUpdate.bookName;
     const author = bookUpdate.author;
     const publisher = bookUpdate.publisher;
