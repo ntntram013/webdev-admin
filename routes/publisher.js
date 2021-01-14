@@ -11,6 +11,4 @@ router.get('/add',publisherController.RenderAdd);
 router.post('/add',publisherController.postAdd);
 
 
-//router.get('/:id/delete', userController.delete);
-
 module.exports = router;

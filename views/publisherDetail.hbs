@@ -9,7 +9,8 @@
             <div class="card-body">
                 <form method="post" id="addSupplierForm" action="/catalog/{{_id}}/modify">
 
-
+                    <input type="hidden" class="form-control" aria-label="Default" name="id" value="{{_id}}"
+                           aria-describedby="inputGroup-sizing-default">
                     <br />
                     <div class="row" id="infoSupplier">
                         <div class="col-sm-3">
@@ -18,7 +19,7 @@
                         <div class="col-sm-7">
                             <div class="input-group mb-3">
 
-                                <input type="text" class="form-control" aria-label="Default" name="catalogName" value="{{publisherName}}"
+                                <input type="text" class="form-control" aria-label="Default" name="publisherName" value="{{publisherName}}"
                                        aria-describedby="inputGroup-sizing-default">
                             </div>
                         </div>

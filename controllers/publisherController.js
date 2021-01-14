@@ -59,8 +59,8 @@ exports.changeName=async(req,res,next)=>
 
 exports.postChangeName=async(req,res,next)=>
 {
-    const id=req.params._id;
-    const newName=req.body.catalogName;
+    const id=req.body._id;
+    const newName=req.body.publisherName;
     await publisherModel.modifyName(id,newName).then(res.redirect('/publisher'));
 }
 

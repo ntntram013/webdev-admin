@@ -59,7 +59,7 @@ exports.changeName=async(req,res,next)=>
 
 exports.postChangeName=async(req,res,next)=>
 {
-    const id=req.params._id;
+    const id=req.body.id;
     const newName=req.body.catalogName;
     await catalogModel.modifyName(id,newName).then(res.redirect('/catalog'));
 }
@@ -72,6 +72,7 @@ exports.RenderAdd=function(req,res,next)
 exports.postAdd=async(req,res,next)=>
 {
     const name=req.body.catalogName;
+
     if (name.length==0)
     {
         req.flash('error','Không thể nhập chuỗi rỗng');

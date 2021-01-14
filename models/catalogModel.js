@@ -29,13 +29,15 @@ exports.detail=async(id)=>
 exports.modifyName=async(id,name)=>
 {
     const catalogCollection = db().collection("Catalog");
-    await catalogCollection.findOne({"_id":ObjectId(id)},
-        {
-            $set:
-                {
-                    catalogName:name
-                }
-})
+
+    const cata = {
+        $set: {
+           catalogName:name
+        }
+    };
+
+
+    await catalogCollection.updateOne({"_id": ObjectId(id)}, cata);
 }
 
 exports.add=async(name)=>
