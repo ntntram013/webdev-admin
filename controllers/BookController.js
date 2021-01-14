@@ -17,7 +17,8 @@ const publisherModel=require('../models/publisherModel');
 const categoryModel=require('../models/catalogModel');
 exports.index=async(req,res,next)=>
 {
-    const book =  bookModel.list();
+    let [book,publisher] = await Promise.all(
+        [bookModel.list(),publisherModel.list()]);
 
     res.render('store',{title:'Danh sách',book});
 }
@@ -57,26 +58,19 @@ exports.modify = async (req,res,next)=> {
 
 exports.detail = async (req, res, next) =>
 {
-    let book, publisherName, category, cover;
-    try {
-        book = await bookModel.detail(req.params.id);
-        [publisherName, category, cover] = await Promise.all(
-            [publisherModel.getPublisher(book.publisherID),
-                categoryModel.getCategory(book.categoryID),bookModel.getCoverForm(book.coverForm)]);
-        const page=req.body.page;
-        const item=req.body.item;
-        console.log(page);
-        book.page=page;
-        book.publisherName = publisherName;
-        book.category = category;
-        book.coverForm = cover;
-        book.item=item;
-    }
-    catch (e) {
-        console.log(e);
-        res.redirect('back');
-    }
 
+    const book = await bookModel.detail(req.params.id);
+    let [publisherName, category, cover] = await Promise.all(
+        [publisherModel.getPublisher(book.publisherID),
+                categoryModel.getCategory(book.categoryID),bookModel.getCoverForm(book.coverForm)]);
+    const page=req.body.page;
+    const item=req.body.item;
+    console.log(page);
+    book.page=page;
+    book.publisherName = publisherName;
+    book.category = category;
+    book.coverForm = cover;
+    book.item=item;
 
     res.render('bookDetail', {title: 'Chỉnh sửa', book, page,item});
 
