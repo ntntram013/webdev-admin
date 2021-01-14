@@ -46,11 +46,11 @@ exports.add = async (fields) => {
     })
     const book = {
         isbn: isbn,
-        category: category,
+        categoryID: category,
         bookImage: bookImage,
         bookName: bookName,
         author: author,
-        publisher: publisher,
+        publisherID: publisher,
         price: price,
         totalPage: totalPage,
         coverForm: coverForm,

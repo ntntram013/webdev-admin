@@ -77,9 +77,9 @@
             <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
             <div class="col-sm-10">
                 <select name="coverForm" class="form-select" aria-label="Default select example">
-                    {{#coverList}}
+                    {{#each coverList}}
                         <option {{checkId this._id ../coverForm}}  value="{{_id}}">{{coverName}}</option>
-                    {{/coverList}}
+                    {{/each}}
                 </select>
             </div>
         </div>

@@ -21,6 +21,7 @@ const flash = require('connect-flash');
 
 
 
+
 const passport = require('./passport');
 const authenthicateMid = require('./middlewares/auth');
 const indexRouter = require('./routes/index');
@@ -38,6 +39,7 @@ const app = express();
 // configuration ===============================================================
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
     extname: '.hbs',
     defaultLayout: 'layout',

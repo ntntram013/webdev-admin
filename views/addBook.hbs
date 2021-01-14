@@ -25,9 +25,14 @@
 
 
     <div class="mb-3 row">
-        <label class="col-form-label col-sm-2 text-sm-right">Tên nhà xuất bản</label>
+        <label class="col-form-label col-sm-2 text-sm-right">Nhà xuất bản</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="publisher" placeholder="Nhập tên nhà xuất bản" required>
+            <select name="publisher" class="form-select" aria-label="Default select example" required>
+                <option selected disabled >Chọn nhà xuất bản</option>
+                {{#publisherList}}
+                    <option value="{{_id}}">{{publisherName}}</option>
+                {{/publisherList}}
+            </select>
         </div>
     </div>
 
@@ -52,7 +57,14 @@
     <div class="mb-3 row">
         <label class="col-form-label col-sm-2 text-sm-right">Thể loại</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="category" placeholder="Nhập thể loại" required>
+            <select name="category" class="form-select" aria-label="Default select example" required>
+
+                <option selected disabled >Chọn thể loại</option>
+
+                {{#each catalogList}}
+                    <option value="{{_id}}">{{catalogName}}</option>
+                {{/each}}
+            </select>
         </div>
     </div>
 
@@ -60,7 +72,12 @@
     <div class="mb-3 row">
         <label class="col-form-label col-sm-2 text-sm-right">Hình thức bìa</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="coverForm" placeholder="Nhập hình thức bìa" required>
+            <select name="coverForm" class="form-select" aria-label="Default select example" required>
+                <option selected disabled >Chọn hình thức bìa</option>
+                {{#coverList}}
+                    <option value="{{_id}}">{{coverName}}</option>
+                {{/coverList}}
+            </select>
         </div>
     </div>
 

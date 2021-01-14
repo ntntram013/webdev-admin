@@ -27,7 +27,9 @@ exports.add=async(req, res, next)=>
 {
     const page=req.body.page;
     const item=req.body.item;
-    res.render('addBook',{title:'Thêm mới',page,item});
+    let [publisherList, catalogList, coverList] = await Promise.all(
+        [publisherModel.list(),categoryModel.list(),bookModel.coverList()])
+    res.render('addBook',{title:'Thêm mới',publisherList,catalogList,coverList,page,item});
 }
 exports.modify = async (req,res,next)=> {
     console.log(req.params.id);
@@ -88,7 +90,7 @@ exports.postAdd=async(req,res,next)=>
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
         let arrayOfFiles = files[""];
 
-        if(arrayOfFiles.length > 0){
+        if(files.imageFile.size> 0){
             cloudinary.uploader.upload(files.imageFile.path,
                 function(error, result) {
                     console.log(result, error);
