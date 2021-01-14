@@ -62,10 +62,16 @@ exports.add = async (fields, newBookImage) => {
     await booksCollection.insertOne(book);
 }
 exports.detail = async (id) => {
-    const booksCollection = db().collection('Product');
+    let book;
+    try {
+        const booksCollection = db().collection('Product');
 
-    const book = await booksCollection.findOne({_id: ObjectId(id), isDeleted: false});
-
+        book = await booksCollection.findOne({_id: ObjectId(id), isDeleted: false});
+    }
+    catch (e) {
+        console.log(e);
+        return null;
+    }
     return book;
 
 }
