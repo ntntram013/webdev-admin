@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "node ./bin/www"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
@@ -26,10 +26,11 @@
         "nodemailer": "^6.4.17",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
-        "slugify": "^1.4.6"
-    },
-    "devDependencies": {
+        "slugify": "^1.4.6",
         "cloudinary": "^1.23.0",
         "handlebars": "^4.5.0"
+    },
+    "devDependencies": {
+
     }
 }
