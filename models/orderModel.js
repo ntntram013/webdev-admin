@@ -30,6 +30,6 @@ exports.UpdateStatus=async(id,NewStatus)=>
 exports.Detail=async(id)=>
 {
     const orderCollection = db().collection('Orders');
-    const order=orderCollection.findOne({"_id":ObjectId(id)});
+    const order= await orderCollection.findOne({"_id":ObjectId(id)});
     return order;
 }

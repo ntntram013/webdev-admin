@@ -30,14 +30,14 @@ exports.modifyName=async(id,name)=>
 {
     const catalogCollection = db().collection("Catalog");
 
-    const cata = {
+    const data = {
         $set: {
            catalogName:name
         }
     };
 
 
-    await catalogCollection.updateOne({"_id": ObjectId(id)}, cata);
+    await catalogCollection.updateOne({"_id": ObjectId(id)}, data);
 }
 
 exports.add=async(name)=>
@@ -49,7 +49,7 @@ exports.add=async(name)=>
             isDeleted:false
         }
 
-    catalogCollection.insertOne(catalog);
+    await catalogCollection.insertOne(catalog);
 }
 exports.getCategory = async (id) =>{
     const catalogCollection = db().collection('Catalog');

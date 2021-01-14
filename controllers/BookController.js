@@ -115,11 +115,12 @@ exports.postAdd=async(req,res,next)=>
                 });
         }
         console.log(bookImage);
-        bookModel.add(fields,bookImage).then(res.redirect(backUrl));
+        await bookModel.add(fields,bookImage).then(res.redirect(backUrl));
 
-
+        res.redirect(backUrl);
 
     });
+
 
 }
 
@@ -136,7 +137,6 @@ exports.postModify=async(req,res,next)=>
         }
         let bookImage = [fields.bookImage0,fields.bookImage1, fields.bookImage2];
         const backUrl="/store/?page="+fields.page+"&item="+fields.item;
-        let arrayOfFiles = files[''];
         if(files.imageFile0.size> 0){
             await cloudinary.uploader.upload(files.imageFile0.path,
                 function(error, result) {
@@ -165,7 +165,7 @@ exports.postModify=async(req,res,next)=>
 
     });
 
-
+    res.redirect('back');
 
 }
 

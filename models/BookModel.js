@@ -33,14 +33,14 @@ exports.add = async (fields, newBookImage) => {
     })
     const book = {
         isbn: isbn,
-        categoryID: category,
+        categoryID: ObjectId(category),
         bookImage: bookImage,
         bookName: bookName,
         author: author,
-        publisherID: publisher,
+        publisherID: ObjectId(publisher),
         price: price,
         totalPage: totalPage,
-        coverForm: coverForm,
+        coverForm: ObjectId(coverForm),
         detail: detail,
         isDeleted: isDeleted,
         parseBookName: parseBookName
@@ -81,14 +81,14 @@ exports.update = async (id, bookUpdate, newBookImage) => {
     const book = {
         $set: {
             isbn: isbn,
-            categoryID: category,
+            categoryID: ObjectId(category),
             bookImage: bookImage,
             bookName: bookName,
             author: author,
-            publisherID: publisher,
+            publisherID: ObjectId(publisher),
             price: price,
             totalPage: totalPage,
-            coverForm: coverForm,
+            coverForm: ObjectId(coverForm),
             detail: detail,
             isDeleted: isDeleted,
             parseBookName: parseBookName
